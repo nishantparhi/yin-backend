@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Login</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
+
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	</head>
+
+	<body>
+
+		<div class="wrapper" style="background-image: url('{% static 'images/login.jpg'%}');">
+			<div class="inner log">
+				
+				<form action="{% url 'login' %}" method="POST">
+					{% csrf_token %}
+					<h3>Login</h3>
+					<div class="form-wrapper">
+						<!-- <input type="text" placeholder="Email Address" class="form-control"> -->
+						{{form.username}}
+						<i class="zmdi zmdi-email"></i>
+					</div>
+					<div class="form-wrapper">
+						<!-- <input type="password" placeholder="Password" class="form-control"> -->
+						{{form.password}}
+						<i class="zmdi zmdi-lock"></i>
+					</div>
+					<button type="submit">Login
+                    </button>
+					<div class="link-text">New here? <a href="signup.html">signup</a></div>
+				</form>
+			</div>
+		</div>
+		
+		<!-- Javascript for modify inputs attributes -->
+		<script>
+			const inputs = document.querySelectorAll('input');
+			inputs[1].placeholder = "Username";
+			inputs[1].classList += "form-control";
+			inputs[2].placeholder = "Password";
+			inputs[2].classList += "form-control";
+			// console.log(inputs)
+		</script>
+	</body>
+</html>
