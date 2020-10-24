@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Basic -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Mobile Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Site Metas -->
+<title>Youth India Network | A News Website</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Site Icons -->
+<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+
+<!-- Design fonts -->
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+<!-- FontAwesome Icons core CSS -->
+<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="{% static 'style.css' %}" rel="stylesheet">
+
+<!-- Responsive styles for this template -->
+<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+<!-- Colors for this template -->
+<link href="{% static 'css/colors.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div id="preloader">
+        <img class="preloader" src="{% static 'images/loader.gif' %}" alt="">
+    </div><!-- end loader -->
+    <!-- END LOADER -->
+
+    <!-- Header Section -->
+    {% include 'website/header.html' %}
+    <!-- Header End -->
+
+    <!-- Main Content  -->
+    {% block contewnt %}{% endblock %}
+
+    <!-- Footer Section -->
+    {% include 'website/footer.html' %}
+
+    <div class="dmtop">Scroll to Top</div>
+
+    </div><!-- end wrapper -->
+
+    <!-- Core JavaScript
+    ================================================== -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/tether.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+
+</html>
