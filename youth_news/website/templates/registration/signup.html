@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,7 +10,7 @@
 		<link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
 
 		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	</head>
 
 	<body>
@@ -17,37 +18,52 @@
 		<div class="wrapper" style="background: linear-gradient(20deg, #333, #6c969d);">
 			<div class="inner">
 				
-				<form action="">
+				<form action="{% url 'register' %}" method="POST">
+					{% csrf_token %}
 					<h3>Register to write for us!</h3>
 					<div class="form-group">
-						<input type="text" placeholder="First Name" class="form-control">
-						<input type="text" placeholder="Last Name" class="form-control">
+						{{form.first_name}}
+						{{form.last_name}}
 					</div>
 					<div class="form-wrapper">
-						<input type="text" placeholder="Username" class="form-control">
+						{{form.username}}
 						<i class="zmdi zmdi-account"></i>
 					</div>
 					<div class="form-wrapper">
-						<input type="text" placeholder="Email Address" class="form-control">
+						{{form.email}}
 						<i class="zmdi zmdi-email"></i>
 					</div>
 					<div class="form-wrapper">
-						<input type="password" placeholder="Password" class="form-control">
+						{{form.password1}}
 						<i class="zmdi zmdi-lock"></i>
 					</div>
 					<div class="form-wrapper">
-						<input type="password" placeholder="Confirm Password" class="form-control">
+						{{form.password2}}
 						<i class="zmdi zmdi-lock"></i>
 					</div>
-					<button>Register
+					<button type="submit">Register
 					</button>
-					<div class="link-text">Already have an account? <a href="login.html">Login</a></div>
+					<div class="link-text">Already have an account? <a href="{% url 'login' %}">Login</a></div>
 				</form>
 				<div class="image-holder">
-					<img src="images/write.jpg" alt="">
+					<img src="{% static 'images/write.jpg' %}" alt="">
 				</div>
 			</div>
 		</div>
 		
+		<script>
+			const inputs = document.querySelectorAll('input');
+			// console.log(inputs);
+			inputs.forEach((inp) => {
+				inp.classList += 'form-control';
+			})
+			inputs[1].placeholder = 'First Name';
+			inputs[2].placeholder = 'Last Name';
+			inputs[3].placeholder = 'Username';
+			inputs[4].placeholder = 'Email Address';
+			inputs[5].placeholder = 'Password';
+			inputs[6].placeholder = 'Confirm Password';
+
+		</script>
 	</body>
 </html>
