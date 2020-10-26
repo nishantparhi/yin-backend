@@ -20,3 +20,6 @@ def register(request):
     form = CreateUserForm()
     context = {'form': form}
     return render(request, 'registration/signup.html', context)
+
+def single(request):
+    return render(request, 'website/single.html')
