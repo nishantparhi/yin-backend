@@ -12,8 +12,9 @@ media/
 # Editor directories and files
 .idea
 # Byte-compiled / optimized / DLL files
-**/**/__pycache__/
-**/__pycache__/
-
+__pycache__/
+**/__pycache__
+**/*.pyc
+*.pyc
 *.py[cod]
 *$py.class
