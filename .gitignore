@@ -8,10 +8,10 @@ env/
 # Project asset folders
 media/
 # Database
-db.sqlite3
+**/db.sqlite3
 # Editor directories and files
 .idea
 # Byte-compiled / optimized / DLL files
-__pycache__/
+./website/__pycache__/
 *.py[cod]
 *$py.class
