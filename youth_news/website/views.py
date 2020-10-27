@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login
+from .models import Contact
 
 def index(request):
     return render(request, 'website/index.html')
@@ -23,3 +24,17 @@ def register(request):
 
 def single(request):
     return render(request, 'website/single.html')
+
+def contactPage(request):
+    if request.method =='POST':
+
+        name = request.POST['txtName']
+        email = request.POST['txtEmail']
+        phone = request.POST['txtPhone']
+        subject = request.POST['txtSubject']
+        message = request.POST['txtMsg']
+
+    #form_class = ContactForm
+        contact = Contact (name = name , email= email, phone=phone, subject= subject, message= message)
+        contact.save()
+    return render(request, 'website/page-contact.html')
