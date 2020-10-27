@@ -38,3 +38,6 @@ def contactPage(request):
         contact = Contact (name = name , email= email, phone=phone, subject= subject, message= message)
         contact.save()
     return render(request, 'website/page-contact.html')
+
+def dashboardPage(request):
+    return render(request, 'website/dashboard.html')

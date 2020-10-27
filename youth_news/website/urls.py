@@ -7,6 +7,9 @@ urlpatterns = [
     path('single/',views.single,name="single"),
     path('contact-us/', views.contactPage, name="contact"),
 
+    # Dashboard
+    path('dashboard/', views.dashboardPage, name="dashboard"),
+
     # Registration
     path('register/',views.register, name='register'),
 
