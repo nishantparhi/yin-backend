@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.index, name='index'),    
     path('single/',views.single,name="single"),
+    path('contact-us/', views.contactPage, name="contact"),
 
     # Registration
     path('register/',views.register, name='register'),
