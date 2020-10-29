@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from .util import unique_slug_generator
+from ckeditor.fields import RichTextField
 
 # Contact Form 
 class Contact(models.Model):
@@ -24,7 +25,8 @@ class BlogPost(models.Model):
     blog_title = models.CharField(max_length=400, null=False)
 
     slug = models.SlugField(max_length=250, null=True, blank=True)
-    blog_content = models.TextField()
+    # blog_content = models.TextField()
+    blog_content = RichTextField(blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
 

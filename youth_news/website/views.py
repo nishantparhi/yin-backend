@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login
-from .models import Contact
+from .models import Contact, BlogPost
 
 def index(request):
     return render(request, 'website/index.html')
@@ -22,9 +22,6 @@ def register(request):
     context = {'form': form}
     return render(request, 'registration/signup.html', context)
 
-def single(request):
-    return render(request, 'website/single.html')
-
 def contactPage(request):
     if request.method =='POST':
 
@@ -41,3 +38,17 @@ def contactPage(request):
 
 def dashboardPage(request):
     return render(request, 'website/dashboard.html')
+
+
+# View individual blog
+def blog(request, slug):
+    try:
+        blogpost = BlogPost.objects.get(slug=slug)
+        user = blogpost.user
+    except:
+        return render(request, 'website/page-404.html')
+    context = {
+        'blogpost':blogpost,
+        'pub_user':user,
+    }
+    return render(request, 'website/single.html', context)
