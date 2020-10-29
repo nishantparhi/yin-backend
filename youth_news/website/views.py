@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost
 
 def index(request):
@@ -36,8 +37,10 @@ def contactPage(request):
         contact.save()
     return render(request, 'website/page-contact.html')
 
+@login_required
 def dashboardPage(request):
     return render(request, 'website/dashboard.html')
+
 
 
 # View individual blog
@@ -52,3 +55,7 @@ def blog(request, slug):
         'pub_user':user,
     }
     return render(request, 'website/single.html', context)
+
+# Create a new post
+def createPost(request):
+    return render(request, 'website/create_post.html')
