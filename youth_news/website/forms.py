@@ -31,3 +31,7 @@ class CreateUserForm(UserCreationForm):
         return user
 
 # Blog model form
+class PostForm(ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['blog_title','blog_content']

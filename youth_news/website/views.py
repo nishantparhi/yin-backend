@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .forms import CreateUserForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost
@@ -57,5 +57,28 @@ def blog(request, slug):
     return render(request, 'website/single.html', context)
 
 # Create a new post
+@login_required
 def createPost(request):
-    return render(request, 'website/create_post.html')
+    user = request.user
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        # print(request.POST)
+        if form.is_valid():
+            # form.save()
+            post_item = form.save(commit=False)
+            post_item.user = request.user
+            post_item.save()
+            return redirect(f'/news/{post_item.slug}')
+    else:
+        form = PostForm()
+    return render(request, 'website/create_post.html', {'form':form})
+
+# Edit a post
+@login_required
+def editPost(request, slug=None):
+    item = get_object_or_404(BlogPost, slug=slug)
+    form = PostForm(request.POST or None ,instance=item)
+    if form.is_valid():
+        form.save()
+        return redirect(f'/news/{slug}')
+    return render(request, 'website/create_post.html', {'form':form})
