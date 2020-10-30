@@ -3,11 +3,12 @@ from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost
+from .decorators import unauthentiated_user
 
 def index(request):
     return render(request, 'website/index.html')
     
-
+@unauthentiated_user
 def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
