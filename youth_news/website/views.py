@@ -75,7 +75,7 @@ def createPost(request):
             post_item.user = request.user
             # status
             blogStatus = request.POST.get('status', None)
-            print(request.POST, blogStatus)
+            # print(request.POST, blogStatus)
             if ( blogStatus!=None) and (blogStatus == 'ACTIVE'):
                 post_item.status = 'ACTIVE'
             else:
@@ -105,9 +105,40 @@ def editPost(request, slug=None):
     # check for auth
     if item.user != request.user:
         return render(request, 'website/page-404.html')
-        
+
     form = PostForm(request.POST or None ,instance=item)
     if form.is_valid():
-        form.save()
-        return redirect(f'/news/{slug}')
-    return render(request, 'website/create_post.html', {'form':form})
+        # form.save()
+        post_item = form.save(commit=False)
+        post_item.user = request.user
+        # status
+        blogStatus = request.POST.get('status', None)
+        # print(request.POST, blogStatus)
+        if ( blogStatus!=None) and (blogStatus == 'ACTIVE'):
+            post_item.status = 'ACTIVE'
+        else:
+            post_item.status = 'PENDING'
+        post_item.save()
+        if post_item.status == 'ACTIVE':
+            return redirect(f'/news/{post_item.slug}')
+        else:
+            return redirect('dashboard')
+    
+    # if the user is core member or not
+    isCore = False
+    group = None
+    if request.user.groups.exists():
+        group = request.user.groups.all()[0].name
+    if group == 'core_content_writter':
+        isCore = True
+    return render(request, 'website/create_post.html', {'form':form, 'isCore': isCore})
+
+# View Blogs
+@login_required
+def viewBlogs(request):
+    return render(request, 'website/view_blogs.html')
+
+# Pending Blogs
+@login_required
+def pendingBlogs(request):
+    return render(request, 'website/pending_blogs.html')
