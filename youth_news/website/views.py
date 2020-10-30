@@ -51,6 +51,11 @@ def blog(request, slug):
         user = blogpost.user
     except:
         return render(request, 'website/page-404.html')
+    
+    # if blog is not active then don't show anyone
+    if blogpost.status != 'ACTIVE':
+        return render(request, 'website/page-404.html')
+
     context = {
         'blogpost':blogpost,
         'pub_user':user,
@@ -61,23 +66,46 @@ def blog(request, slug):
 @login_required
 def createPost(request):
     user = request.user
+    # print(request.POST)
     if request.method == "POST":
         form = PostForm(request.POST)
-        # print(request.POST)
         if form.is_valid():
             # form.save()
             post_item = form.save(commit=False)
             post_item.user = request.user
+            # status
+            blogStatus = request.POST.get('status', None)
+            print(request.POST, blogStatus)
+            if ( blogStatus!=None) and (blogStatus == 'ACTIVE'):
+                post_item.status = 'ACTIVE'
+            else:
+                post_item.status = 'PENDING'
             post_item.save()
-            return redirect(f'/news/{post_item.slug}')
+            if post_item.status == 'ACTIVE':
+                return redirect(f'/news/{post_item.slug}')
+            else:
+                return redirect('dashboard')
     else:
         form = PostForm()
-    return render(request, 'website/create_post.html', {'form':form})
+
+        # if the user is core member or not
+        isCore = False
+        group = None
+        if request.user.groups.exists():
+            group = request.user.groups.all()[0].name
+        if group == 'core_content_writter':
+            isCore = True
+
+    return render(request, 'website/create_post.html', {'form':form, 'isCore': isCore})
 
 # Edit a post
 @login_required
 def editPost(request, slug=None):
     item = get_object_or_404(BlogPost, slug=slug)
+    # check for auth
+    if item.user != request.user:
+        return render(request, 'website/page-404.html')
+        
     form = PostForm(request.POST or None ,instance=item)
     if form.is_valid():
         form.save()

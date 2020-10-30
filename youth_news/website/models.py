@@ -31,6 +31,13 @@ class BlogPost(models.Model):
     blog_content = RichTextUploadingField(blank=True, null=True)
 
     pub_date = models.DateTimeField(auto_now_add=True)
+    
+    BLOG_STATUS_CHOICES = [
+    ('ACTIVE', 'ACTIVE'),
+    ('PENDING', 'PENDING'),
+    ]
+
+    status = models.CharField(max_length=30, choices=BLOG_STATUS_CHOICES, default="PENDING")
 
     def __str__(self):
         return self.blog_title
