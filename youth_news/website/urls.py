@@ -40,6 +40,7 @@ urlpatterns = [
     # view news
     path('create_post/', views.createPost, name='create_post'),
     path('edit_post/<slug:slug>/', views.editPost, name='edit_post'),
+    path('delete_post/<slug:slug>/', views.deletePost, name='delete_post'),
     path('news/<slug:slug>/', views.blog, name="blog"),
     path('view_blogs/', views.viewBlogs, name="view_blogs"),
     path('pending_blogs/', views.pendingBlogs, name="pending_blogs"),

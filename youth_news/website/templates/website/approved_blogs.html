@@ -1,14 +1,15 @@
 {% extends 'website/post_base.html' %}
-{% block title %}Pending Post{% endblock %}
+{% block title %}Approved Post{% endblock %}
 {% block content %}
 <div class="container my-3">
-    <h3>Pending Blogs</h3>
+    <h3>Approved Blogs</h3>
     <table class="table mt-3 responsive-table ">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Blog Title</th>
                 <th scope="col">Date</th>
+                <th scope="col">Link</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
             </tr>
@@ -19,6 +20,9 @@
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{blog.blog_title}}</td>
                 <td>{{blog.pub_date|date:"M d, Y"}}</td>
+                <td>
+                    <a href="{% url 'blog' blog.slug %}" target="_blank" class="btn btn-outline-success">View</a>
+                </td>
                 <td><a href="{% url 'edit_post' blog.slug %}" target="_blank" class="btn btn-outline-info">Edit</a></td>
                 <td><a href="{% url 'delete_post' blog.slug %}" target="_blank" class="btn btn-outline-danger">Delete</a></td>
             </tr>
