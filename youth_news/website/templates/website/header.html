@@ -1,4 +1,17 @@
 {% load static %}
+
+<div id="wrapper">
+    <div class="collapse top-search" id="collapseExample">
+        <div class="card card-block">
+            <div class="newsletter-widget text-center">
+                <form class="form-inline">
+                    <input type="text" class="form-control" placeholder="What you are looking for?">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </form>
+            </div><!-- end newsletter -->
+        </div>
+    </div><!-- end top-search -->
+
     <div class="topbar-section">
         <div class="container-fluid">
             <div class="row">
@@ -19,8 +32,7 @@
         <ul class="list-inline">
             <li class="list-inline-item"><a href="blog-category-01.html"><i class="fa fa-star"></i> Trends</a></li>
             <li class="list-inline-item"><a href="blog-category-02.html"><i class="fa fa-bolt"></i> Hot Topics</a></li>
-            <li class="list-inline-item"><a href="{% url 'contact' %}"><i class="fa fa-user-circle-o"></i> Write for
-                    us</a></li>
+            <li class="list-inline-item"><a href="{% url 'contact' %}"><i class="fa fa-user-circle-o"></i> Contact Us</a></li>
             {% if user.is_authenticated %}
             <li class="list-inline-item"><a href="{% url 'logout' %}"><i class="fa fa-sign-in mr-1 text-success"></i>Logout</a>
             </li>
@@ -34,11 +46,18 @@
 </div><!-- end col -->
 
 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <div class="topsearch text-right">
+        <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-search"></i> Search</a>
+    </div><!-- end search -->
+</div>
+
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
     {% if user.is_authenticated %}
     <div class="topsearch text-right">
         <a href="{% url 'dashboard' %}">Welcome, {{user.username}}</a>
     </div><!-- end search -->
     {% endif %}
+</div>
 </div><!-- end col -->
 </div><!-- end row -->
 </div><!-- end header-logo -->
