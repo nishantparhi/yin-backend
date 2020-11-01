@@ -133,12 +133,32 @@ def editPost(request, slug=None):
         isCore = True
     return render(request, 'website/create_post.html', {'form':form, 'isCore': isCore})
 
+# Delete a  Blog
+@login_required
+def deletePost(request, slug):
+    user = request.user
+    # SomeModel.objects.filter(id=id).delete()
+    BlogPost.objects.filter(slug=slug, user=user).delete()
+    return redirect('dashboard')
+
 # View Blogs
 @login_required
 def viewBlogs(request):
-    return render(request, 'website/view_blogs.html')
+    user = request.user
+    allBlogs = BlogPost.objects.filter(status="ACTIVE", user=user).order_by('-pub_date')
+    context = {
+        'blogs':allBlogs
+    }
+    # print(allBlogs)
+    return render(request, 'website/approved_blogs.html', context)
 
 # Pending Blogs
 @login_required
 def pendingBlogs(request):
-    return render(request, 'website/pending_blogs.html')
+    user = request.user
+    allBlogs = BlogPost.objects.filter(status="PENDING", user=user).order_by('-pub_date')
+    context = {
+        'blogs':allBlogs
+    }
+    return render(request, 'website/pending_blogs.html', context)
+

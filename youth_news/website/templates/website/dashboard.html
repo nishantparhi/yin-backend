@@ -13,7 +13,7 @@
     <div class="left-area">
       <div class="app-name">MyDocs</div>
       <!-------------------------first----------------------->
-      <a href="dasbord.html" class="item-link active" id="pageLink">
+      <a href="{% url 'dashboard' %}" class="item-link active" id="pageLink">
         <svg width="24" height="24" viewBox="0 0 24 24">
           <path d="M3 10v11h6v-7h6v7h6v-11L12,3z" />
         </svg>
@@ -76,7 +76,7 @@
                   <polyline points="21 15 16 10 5 21" />
                 </svg>
               </div>
-              <span class="access-text">View Posts</span>
+              <span class="access-text">Approved Posts</span>
             </div>
         </a>
         <!----second---->
@@ -95,7 +95,7 @@
           </div>
         </a>
         <!-------------third----------->
-        <a href="deletepost.html">
+        <!-- <a href="deletepost.html">
           <div class="access-link-wrapper">
             <div class="access-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="currentColor"
@@ -108,7 +108,7 @@
             </div>
             <span class="access-text">Delete post</span>
           </div>
-        </a>
+        </a> -->
         <!-------- fourth----------------->
         <a href="{% url 'pending_blogs' %}">
           <div class="access-link-wrapper">
@@ -122,7 +122,7 @@
                 <line x1="17" y1="18" x2="3" y2="18" />
               </svg>
             </div>
-            <span class="access-text">Pending Post</span>
+            <span class="access-text">Pending Posts</span>
           </div>
     </div></a>
     </section>
