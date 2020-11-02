@@ -13,7 +13,7 @@
     <div class="left-area">
       <div class="app-name">MyDocs</div>
       <!-------------------------first----------------------->
-      <a href="{% url 'dashboard' %}" class="item-link active" id="pageLink">
+      <a href="{% url 'developer' %}" class="item-link active" id="pageLink">
         <svg width="24" height="24" viewBox="0 0 24 24">
           <path d="M3 10v11h6v-7h6v7h6v-11L12,3z" />
         </svg>
@@ -83,15 +83,15 @@
         <a href="{% url 'create_post' %}">
           <div class="access-link-wrapper">
             <div class="access-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 20 20" fill="none"
-                stroke="black" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-image">
-                <path
-                  d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z">
-                </path>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none"
+                  stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-image">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
             </div>
-            <span class="access-text">Create Post</span>
+            <span class="access-text">All Posts</span>
           </div>
         </a>
         <!-------------third----------->
@@ -110,7 +110,7 @@
           </div>
         </a> -->
         <!-------- fourth----------------->
-        <a href="{% url 'pending_blogs' %}">
+        <a href="{% url 'pending_blogs_developer' %}">
           <div class="access-link-wrapper">
             <div class="access-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none"

@@ -45,6 +45,10 @@ urlpatterns = [
     path('view_blogs/', views.viewBlogs, name="view_blogs"),
     path('pending_blogs/', views.pendingBlogs, name="pending_blogs"),
 
-    # approve/reject post
+    # approve/reject post - Developer
     path('developer/', views.developerDashboard, name="developer"),
+    path('pending_blogs_developer/', views.pendingBlogsDeveloper, name="pending_blogs_developer"),
+    path('approve_post/<slug:slug>/', views.approvePost, name='approve_post'),
+    path('delete_post_developer/<slug:slug>/', views.deletePostDeveloper, name='delete_post_developer'),
+    path('preview/<slug:slug>/', views.previewPost, name="preview_post"),
 ]

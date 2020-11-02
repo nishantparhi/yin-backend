@@ -3,7 +3,7 @@ from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost
-from .decorators import unauthentiated_user
+from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 
 def index(request):
     return render(request, 'website/index.html')
@@ -39,6 +39,7 @@ def contactPage(request):
     return render(request, 'website/page-contact.html')
 
 @login_required
+@notDeveloper()
 def dashboardPage(request):
     return render(request, 'website/dashboard.html')
 
@@ -64,6 +65,7 @@ def blog(request, slug):
 
 # Create a new post
 @login_required
+@notDeveloper()
 def createPost(request):
     user = request.user
     # print(request.POST)
@@ -100,6 +102,7 @@ def createPost(request):
 
 # Edit a post
 @login_required
+@notDeveloper()
 def editPost(request, slug=None):
     item = get_object_or_404(BlogPost, slug=slug)
     # check for auth
@@ -135,6 +138,7 @@ def editPost(request, slug=None):
 
 # Delete a  Blog
 @login_required
+@notDeveloper()
 def deletePost(request, slug):
     user = request.user
     # SomeModel.objects.filter(id=id).delete()
@@ -143,6 +147,7 @@ def deletePost(request, slug):
 
 # View Blogs
 @login_required
+@notDeveloper()
 def viewBlogs(request):
     user = request.user
     allBlogs = BlogPost.objects.filter(status="ACTIVE", user=user).order_by('-pub_date')
@@ -154,6 +159,7 @@ def viewBlogs(request):
 
 # Pending Blogs
 @login_required
+@notDeveloper()
 def pendingBlogs(request):
     user = request.user
     allBlogs = BlogPost.objects.filter(status="PENDING", user=user).order_by('-pub_date')
@@ -162,5 +168,55 @@ def pendingBlogs(request):
     }
     return render(request, 'website/pending_blogs.html', context)
 
+# Developer Dashboard
+@login_required
+@onlyDeveloper()
 def developerDashboard(request):
     return render(request, 'website/dashboard_admin.html')
+
+# Developer pending post
+@login_required
+@onlyDeveloper()
+def pendingBlogsDeveloper(request):
+    allBlogs = BlogPost.objects.filter(status="PENDING").order_by('-pub_date')
+    context = {
+        'blogs':allBlogs
+    }
+    return render(request, 'website/pending_posts_developer.html', context)
+
+# Developer approve post
+@login_required
+@onlyDeveloper()
+def approvePost(request, slug):
+    try:
+        blog = BlogPost.objects.get(slug=slug)
+        blog.status = "ACTIVE"
+        blog.save()
+    except:
+        return redirect('pending_blogs_developer')
+    return redirect('pending_blogs_developer')
+
+# Developer delete post
+@login_required
+@onlyDeveloper()
+def deletePostDeveloper(request, slug):
+    try:
+        BlogPost.objects.filter(slug=slug).delete()
+    except:
+        pass
+    return redirect('pending_blogs_developer')
+    
+# preview a post
+@login_required
+@onlyDeveloper()
+def previewPost(request, slug):
+    try:
+        blog = BlogPost.objects.get(slug=slug, status="PENDING")
+        user = blog.user
+    except:
+        return redirect('pending_blogs_developer')
+    context = {
+        'blogpost':blog,
+        'pub_user':user,
+    }
+    return render(request, 'website/single_preview.html', context)
