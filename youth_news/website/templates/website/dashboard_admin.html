@@ -64,7 +64,7 @@
       </div>
       <section class="content-section">
         <h1 class="section-header">Welcome {{user.username | capfirst}} </h1>
-        <a href="{% url 'view_blogs' %}">
+        <a href="{% url 'approved_blogs_developer' %}">
           <div class="access-links">
             <div class="access-link-wrapper">
               <div class="access-icon">
@@ -80,7 +80,7 @@
             </div>
         </a>
         <!----second---->
-        <a href="{% url 'create_post' %}">
+        <a href="{% url 'all_blogs_developer' %}">
           <div class="access-link-wrapper">
             <div class="access-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none"

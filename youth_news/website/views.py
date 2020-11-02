@@ -184,6 +184,26 @@ def pendingBlogsDeveloper(request):
     }
     return render(request, 'website/pending_posts_developer.html', context)
 
+# Developer pending post
+@login_required
+@onlyDeveloper()
+def approvedBlogsDeveloper(request):
+    allBlogs = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')
+    context = {
+        'blogs':allBlogs
+    }
+    return render(request, 'website/approved_posts_developer.html', context)
+
+# Developer all post
+@login_required
+@onlyDeveloper()
+def allBlogsDeveloper(request):
+    allBlogs = BlogPost.objects.all().order_by('-pub_date')
+    context = {
+        'blogs':allBlogs
+    }
+    return render(request, 'website/all_posts_developer.html', context)
+
 # Developer approve post
 @login_required
 @onlyDeveloper()
@@ -193,8 +213,21 @@ def approvePost(request, slug):
         blog.status = "ACTIVE"
         blog.save()
     except:
-        return redirect('pending_blogs_developer')
+        pass
     return redirect('pending_blogs_developer')
+
+# Developer pending post
+@login_required
+@onlyDeveloper()
+def pendingPost(request, slug):
+    try:
+        blog = BlogPost.objects.get(slug=slug)
+        blog.status = "PENDING"
+        blog.save()
+    except:
+        pass
+    return redirect('approved_blogs_developer')
+
 
 # Developer delete post
 @login_required

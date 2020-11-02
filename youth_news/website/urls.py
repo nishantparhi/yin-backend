@@ -48,7 +48,10 @@ urlpatterns = [
     # approve/reject post - Developer
     path('developer/', views.developerDashboard, name="developer"),
     path('pending_blogs_developer/', views.pendingBlogsDeveloper, name="pending_blogs_developer"),
+    path('approved_blogs_developer/', views.approvedBlogsDeveloper, name="approved_blogs_developer"),
+    path('all_blogs_developer/', views.allBlogsDeveloper, name="all_blogs_developer"),
     path('approve_post/<slug:slug>/', views.approvePost, name='approve_post'),
+    path('pending_post/<slug:slug>/', views.pendingPost, name='pending_post'),
     path('delete_post_developer/<slug:slug>/', views.deletePostDeveloper, name='delete_post_developer'),
     path('preview/<slug:slug>/', views.previewPost, name="preview_post"),
 ]

@@ -1,0 +1,40 @@
+{% extends 'website/post_base.html' %}
+{% block title %}All Posts{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <h3>All Blogs</h3>
+    <table class="table mt-3 responsive-table ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Author</th>
+                <th scope="col">Blog Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">View</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blog in blogs %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{blog.user}}</td>
+                <td>{{blog.blog_title}}</td>
+                <td>{{blog.pub_date|date:"M d, Y"}}</td>
+                <td>{{blog.status}}</td>
+                <td>
+                    {% if blog.status == "ACTIVE" %}
+                    <a href="{% url 'blog' blog.slug %}" class="btn btn-outline-primary" target="_blank">View</a>
+                    {% else %}
+                    <a href="{% url 'preview_post' blog.slug %}" class="btn btn-outline-warning" target="_blank">View</a>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'delete_post_developer' blog.slug %}"
+                        class="btn btn-outline-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
