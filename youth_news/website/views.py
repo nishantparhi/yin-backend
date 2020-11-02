@@ -162,3 +162,5 @@ def pendingBlogs(request):
     }
     return render(request, 'website/pending_blogs.html', context)
 
+def developerDashboard(request):
+    return render(request, 'website/dashboard_admin.html')

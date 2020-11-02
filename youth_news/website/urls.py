@@ -44,4 +44,7 @@ urlpatterns = [
     path('news/<slug:slug>/', views.blog, name="blog"),
     path('view_blogs/', views.viewBlogs, name="view_blogs"),
     path('pending_blogs/', views.pendingBlogs, name="pending_blogs"),
+
+    # approve/reject post
+    path('developer/', views.developerDashboard, name="developer"),
 ]
