@@ -6,14 +6,14 @@
         <div class="masonry-blog clearfix">
             <div class="left-side">
                 <div class="masonry-box post-media">
-                    <img src="{% static 'upload/blog_masonry_01.jpg' %}" alt="" class="img-fluid">
+                    <img src="{{trandingPosts.4.coverPic.url}}" alt="" class="img-fluid" style="width: 437px !important;height:383px !important;">
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-aqua"><a href="blog-category-01.html" title="">Lifestyle</a></span>
-                                <h4><a href="single.html" title="">FEMINISM- CONVENIENCE OR NECESSITY?</a></h4>
-                                <small><a href="single.html" title="">24 October, 2020</a></small>
-                                <small><a href="blog-author.html" title="">by Jayesh</a></small>
+                                <span class="bg-aqua"><a href="blog-category-01.html" title="">{{trandingPosts.4.catagory.all.0}}</a></span>
+                                <h4><a href="{% url 'blog' trandingPosts.4.slug%}" title="">{{trandingPosts.4.blog_title}}</a></h4>
+                                <small><a href="{% url 'blog' trandingPosts.4.slug%}" title="">{{trandingPosts.4.pub_date}}</a></small>
+                                <small><a href="blog-author.html" title="">by {{trandingPosts.4.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
@@ -22,38 +22,38 @@
 
             <div class="center-side">
                 <div class="masonry-box post-media">
-                    <img src="{% static 'upload/blog_masonry_02.jpg' %}" alt="" class="img-fluid">
+                    <img src="{{trandingPosts.2.coverPic.url}}" alt="" class="img-fluid" style="width: 437px !important;height:213px !important;">
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html" title="">Travel</a></span>
-                                <h4><a href="single4.html" title="">Redefining Our Beautiful</a></h4>
-                                        <small><a href="single4.html" title="">25 October, 2020</a></small>
-                                        <small><a href="blog-author.html" title="">by Abhishek</a></small>
+                                <span class="bg-green"><a href="blog-category-01.html" title="">{{trandingPosts.2.catagory.all.0}}</a></span>
+                                <h4><a href="{% url 'blog' trandingPosts.2.slug%}" title="">{{trandingPosts.2.blog_title}}</a></h4>
+                                        <small><a href="{% url 'blog' trandingPosts.2.slug%}" title="">{{trandingPosts.2.pub_date}}</a></small>
+                                        <small><a href="blog-author.html" title="">by {{trandingPosts.2.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
                 </div><!-- end post-media -->
 
                 <div class="masonry-box small-box post-media">
-                    <img src="{% static 'upload/blog_masonry_03.jpg' %}" alt="" class="img-fluid">
+                    <img src="{{trandingPosts.0.coverPic.url}}" alt="" class="img-fluid" style="width: 211px !important;height:159px !important;">
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html" title="">Travel</a></span>
-                                <h4><a href="single6.html" title="">More like BAN-ISHQ</a></h4>
+                                <span class="bg-green"><a href="blog-category-01.html" title="">{{trandingPosts.0.catagory.all.0}}</a></span>
+                                <h4><a href="{% url 'blog' trandingPosts.0.slug%}" title="">{{trandingPosts.0.blog_title}}</a></h4>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
                 </div><!-- end post-media -->
 
                 <div class="masonry-box small-box post-media">
-                    <img src="{% static 'upload/blog_masonry_04.jpg' %}" alt="" class="img-fluid">
+                    <img src="{{trandingPosts.1.coverPic.url}}" alt="" class="img-fluid" style="width: 211px !important;height:159px !important;">
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html" title="">Travel</a></span>
-                                <h4><a href="single7.html" title="">Save Yourself the Wrong Click</a></h4>
+                                <span class="bg-green"><a href="blog-category-01.html" title="">{{trandingPosts.1.catagory.all.0}}</a></span>
+                                <h4><a href="{% url 'blog' trandingPosts.1.slug%}" title="">{{trandingPosts.1.blog_title}}</a></h4>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->
@@ -62,14 +62,14 @@
 
             <div class="right-side hidden-md-down">
                 <div class="masonry-box post-media">
-                    <img src="{% static 'upload/blog_masonry_05.jpg' %}" alt="" class="img-fluid">
+                    <img src="{{trandingPosts.3.coverPic.url}}" alt="" class="img-fluid" style="width: 437px !important;height:383px !important;">
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-aqua"><a href="blog-category-01.html" title="">Lifestyle</a></span>
-                                <h4><a href="single2.html" title="">NORMALISING BEING ‘NOT OKAY'</a></h4>
-                                <small><a href="single2.html" title="">24, October 2020</a></small>
-                                <small><a href="blog-author.html" title="">by Jayesh</a></small>
+                                <span class="bg-aqua"><a href="blog-category-01.html" title="">{{trandingPosts.3.catagory.all.0}}</a></span>
+                                <h4><a href="{% url 'blog' trandingPosts.3.slug%}" title="">{{trandingPosts.3.blog_title}}</a></h4>
+                                <small><a href="{% url 'blog' trandingPosts.3.slug%}" title="">{{trandingPosts.3.pub_date}}</a></small>
+                                <small><a href="blog-author.html" title="">by {{trandingPosts.3.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
                     </div><!-- end shadow -->

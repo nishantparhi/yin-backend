@@ -26,6 +26,12 @@ class Tag(models.Model):
     def __str__(self):
         return self.text
 
+# Tag model
+class Catagory(models.Model):
+    text = models.CharField(max_length=200)
+    def __str__(self):
+        return self.text
+
 # Blog Post
 class BlogPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -45,8 +51,8 @@ class BlogPost(models.Model):
     ]
 
     status = models.CharField(max_length=30, choices=BLOG_STATUS_CHOICES, default="PENDING")
-    catagory = models.CharField(max_length=200, null=True)
-    tags = models.ManyToManyField(Tag)
+    catagory = models.ManyToManyField(Catagory, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     isTranding = models.BooleanField(default=False)
 
     def __str__(self):
