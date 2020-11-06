@@ -6,9 +6,7 @@ from .models import Contact, BlogPost
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 
 def index(request):
-    trandingBlogs = BlogPost.objects.filter(isTranding=True).order_by('-pub_date')[:5]
-    context = {'trandingPosts': trandingBlogs}
-    return render(request, 'website/index.html', context)
+    return render(request, 'website/index.html')
     
 @unauthentiated_user
 def register(request):
