@@ -35,7 +35,7 @@ class BlogPost(models.Model):
     # blog_content = models.TextField()
     # blog_content = RichTextField(blank=True, null=True)
     blog_content = RichTextUploadingField(blank=True, null=True)
-    coverPic = models.ImageField(upload_to= 'uploads/% Y/% m/% d/', default="/default_cover.png")
+    coverPic = models.ImageField(upload_to= 'cover_photos/', default="/cover_photos/default_cover.png")
 
     pub_date = models.DateTimeField(auto_now_add=True)
     
