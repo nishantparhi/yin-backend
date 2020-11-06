@@ -8,18 +8,18 @@
                         <div class="page-wrapper">
                             <div class="blog-title-area">
                                 <ol class="breadcrumb hidden-xs-down">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Blog</a></li>
-                                    <li class="breadcrumb-item active">{{blogpost.blog_title}}</li>
+                                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                                    <!-- <li class="breadcrumb-item"><a href="#">Blog</a></li> -->
+                                    <li class="breadcrumb-item active"><a href="{% url 'blog' blogpost.slug %}">{{blogpost.blog_title}}</a></li>
                                 </ol>
 
-                                <span class="color-aqua"><a href="blog-category-01.html" title="">Lifestyle</a></span>
+                                <span class="color-aqua"><a href="blog-category-01.html" title="">{{blogpost.catagory.all.0}}</a></span>
 
                                 <h3>{{blogpost.blog_title}}</h3>
 
                                 <div class="blog-meta big-meta">
-                                    <small><a href="single.html" title="">21 July, 2017</a></small>
-                                    <small><a href="blog-author.html" title="">by Jessica</a></small>
+                                    <small><a href="{% url 'blog' blogpost.slug %}" title="">{{blogpost.pub_date}}</a></small>
+                                    <small><a href="blog-author.html" title="">by {{blogpost.user.username}}</a></small>
                                     <small><a href="#" title=""><i class="fa fa-eye"></i> 2344</a></small>
                                 </div><!-- end meta -->
 
@@ -45,10 +45,9 @@
                             <div class="blog-title-area">
                                 <div class="tag-cloud-single">
                                     <span>Tags</span>
-                                    <small><a href="#" title="">lifestyle</a></small>
-                                    <small><a href="#" title="">colorful</a></small>
-                                    <small><a href="#" title="">trending</a></small>
-                                    <small><a href="#" title="">another tag</a></small>
+                                    {% for tag in blogpost.tags.all %}
+                                    <small><a href="#" title="">{{tag}}</a></small>
+                                    {% endfor %}
                                 </div><!-- end meta -->
 
                                 <div class="post-sharing">

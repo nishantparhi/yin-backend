@@ -55,3 +55,10 @@ def onlyDeveloper():
                 return redirect('/dashboard')
         return wrapper_func
     return decorator
+
+'''
+Group Name and Their Role
+developer - can access/edit and approve any post and other settings
+core_content_writter - can write and automatically approved
+general_content_writer - can write but needs to approval of developer to publish blog.
+'''
