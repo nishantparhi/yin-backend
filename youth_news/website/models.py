@@ -20,6 +20,12 @@ class Contact(models.Model):
     def __str__(self):
         return self.name + "-" +  self.email
 
+# Tag model
+class Tag(models.Model):
+    text = models.CharField(max_length=200)
+    def __str__(self):
+        return self.text
+
 # Blog Post
 class BlogPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -29,6 +35,7 @@ class BlogPost(models.Model):
     # blog_content = models.TextField()
     # blog_content = RichTextField(blank=True, null=True)
     blog_content = RichTextUploadingField(blank=True, null=True)
+    coverPic = models.ImageField(upload_to= 'uploads/% Y/% m/% d/', default="/default_cover.png")
 
     pub_date = models.DateTimeField(auto_now_add=True)
     
@@ -38,9 +45,13 @@ class BlogPost(models.Model):
     ]
 
     status = models.CharField(max_length=30, choices=BLOG_STATUS_CHOICES, default="PENDING")
+    catagory = models.CharField(max_length=200, null=True)
+    tags = models.ManyToManyField(Tag)
+    isTranding = models.BooleanField(default=False)
 
     def __str__(self):
         return self.blog_title
+
 
 def slug_generator(sender, instance, *args, **kwargs):
     if not instance.slug:
