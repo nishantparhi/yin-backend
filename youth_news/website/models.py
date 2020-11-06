@@ -29,6 +29,7 @@ class Tag(models.Model):
 # Tag model
 class Catagory(models.Model):
     text = models.CharField(max_length=200)
+    tranding = models.BooleanField(default=False)
     def __str__(self):
         return self.text
 
