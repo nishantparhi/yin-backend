@@ -13,7 +13,7 @@
                                     <li class="breadcrumb-item active"><a href="{% url 'blog' blogpost.slug %}">{{blogpost.blog_title}}</a></li>
                                 </ol>
 
-                                <span class="color-aqua"><a href="blog-category-01.html" title="">{{blogpost.catagory.all.0}}</a></span>
+                                <span class="color-aqua"><a href="blog-category-01.html" title="">{{blogpost.catagory}}</a></span>
 
                                 <h3>{{blogpost.blog_title}}</h3>
 
@@ -45,9 +45,8 @@
                             <div class="blog-title-area">
                                 <div class="tag-cloud-single">
                                     <span>Tags</span>
-                                    {% for tag in blogpost.tags.all %}
-                                    <small><a href="#" title="">{{tag}}</a></small>
-                                    {% endfor %}
+                                    { for blogpost.tags
+                                    <small><a href="#" title="">lifestyle</a></small>
                                 </div><!-- end meta -->
 
                                 <div class="post-sharing">
