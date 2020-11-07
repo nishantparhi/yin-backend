@@ -68,6 +68,7 @@ class BlogPost(models.Model):
     catagory = models.ManyToManyField(Catagory, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     isTranding = models.BooleanField(default=False)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.blog_title
@@ -100,7 +101,8 @@ class Author(models.Model):
     twit_url = models.CharField(max_length=250, null=True, blank=True)
     flickr_url = models.CharField(max_length=250, null=True, blank=True)
     insta_url = models.CharField(max_length=250, null=True, blank=True)
-    gp_url = models.CharField(max_length=250, null=True, blank=True)
+    personal_url = models.CharField(max_length=250, null=True, blank=True)
+    profile_pic = models.ImageField(upload_to='author_profile_pic/', default="/author_profile_pic/default.png")
 
     def __str__(self):
         return str(self.user)

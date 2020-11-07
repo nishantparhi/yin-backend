@@ -6,12 +6,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <h2><i class="fa fa-user"></i> Written by {{blogs.0.user}} <small class="hidden-xs-down hidden-sm-down">Nulla felis eros, varius sit amet volutpat non. </small></h2>
+                        <h2><i class="fa fa-user"></i> Written by {{blogs.0.user}} <small class="hidden-xs-down hidden-sm-down"></small></h2>
                     </div><!-- end col -->
                     <div class="col-lg-4 col-md-4 col-sm-12 hidden-xs-down hidden-sm-down">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Blog</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <!-- <li class="breadcrumb-item"><a href="#">Blog</a></li> -->
                             <li class="breadcrumb-item active">Written by {{blogs.0.user}}</li>
                         </ol>
                     </div><!-- end col -->                    
@@ -28,7 +28,7 @@
                                 <h4 class="small-title">About author</h4>
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <img src="{% static 'upload/author.jpg' %}" alt="" class="img-fluid rounded-circle"> 
+                                        <img src="{{author.profile_pic.url}}" alt="" class="img-fluid rounded-circle"> 
                                     </div><!-- end col -->
 
                                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
@@ -36,12 +36,12 @@
                                         <p>{{author.description}}</p>
 
                                         <div class="topsocial">
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
+                                            <a href="{{author.fb_url}}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                            <a href="{{author.yt_url}}" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
+                                            <a href="{{author.pint_url}}" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                                            <a href="{{author.twit_url}}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                            <a href="{{author.insta_url}}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                            <a href="{{author.personal_url}}" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
                                         </div><!-- end social -->
 
                                     </div><!-- end col -->
@@ -57,8 +57,8 @@
                                 
                                 <div class="blog-box">
                                     <div class="post-media">
-                                        <a href="single.html" title="">
-                                            <img src="{% static 'upload/blog_custom_01.jpg' %}" alt="" class="img-fluid">
+                                        <a href="{% url 'blog' i.slug %}" title="">
+                                            <img src="{{i.coverPic.url}}" alt="" class="img-fluid">
                                             <div class="hovereffect">
                                                 <span></span>
                                             </div>
@@ -77,13 +77,13 @@
                                         </div><!-- end post-sharing -->
                                         <h4><a href="single.html" title="">{{i.blog_title}}</a></h4>
                                         {% autoescape off %}
-                                        {{i.blog_content}}
+                                        {{i.blog_content|truncatechars:300}}
                                         {% endautoescape %}
                                         <!-- <p> </p> -->
                                         <small><a href="blog-category-01.html" title="">Lifestyle</a></small>
                                         <small><a href="single.html" title="">{{i.pub_date}}</a></small>
-                                        <small><a href="blog-author.html" title="">by {{i.user}}</a></small>
-                                        <small><a href="blog-author.html" title=""><i class="fa fa-eye"></i> 2291</a></small>
+                                        <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
+                                        <small><a href="{% url 'blogauthor' i.user.username %}" title=""><i class="fa fa-eye"></i> 2291</a></small>
                                     </div><!-- end meta -->
                                     
                                 </div><!-- end blog-box -->

@@ -17,7 +17,7 @@
                                         title="">{{trandingPosts.4.blog_title}}</a></h4>
                                 <small><a href="{% url 'blog' trandingPosts.4.slug%}"
                                         title="">{{trandingPosts.4.pub_date}}</a></small>
-                                <small><a href="blog-author.html" title="">by
+                                <small><a href="{% url 'blogauthor' trandingPosts.4.user.username %}" title="">by
                                         {{trandingPosts.4.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
@@ -38,7 +38,7 @@
                                         title="">{{trandingPosts.2.blog_title}}</a></h4>
                                 <small><a href="{% url 'blog' trandingPosts.2.slug%}"
                                         title="">{{trandingPosts.2.pub_date}}</a></small>
-                                <small><a href="blog-author" title="">by
+                                <small><a href="{% url 'blogauthor' trandingPosts.2.user.username %}" title="">by
                                         {{trandingPosts.2.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
@@ -89,7 +89,7 @@
                                         title="">{{trandingPosts.3.blog_title}}</a></h4>
                                 <small><a href="{% url 'blog' trandingPosts.3.slug%}"
                                         title="">{{trandingPosts.3.pub_date}}</a></small>
-                                <small><a href="blog-author.html" title="">by
+                                <small><a href="{% url 'blogauthor' trandingPosts.3.user.username %}" title="">by
                                         {{trandingPosts.3.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
@@ -127,12 +127,12 @@
                                 <h4><a href="{% url 'blog' i.slug%}" title="">{{i.blog_title}}</a></h4>
 
                                 {% autoescape off %}
-                                {{i.blog_content}}
+                                {{i.blog_content|truncatechars:500}}<br>
                                 {% endautoescape %}
 
                                 <small><a href="blog-category-01.html" title="">{{trandingCatagories.0}}</a></small>
                                 <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
-                                <small><a href="blog-author/{{i.user.id}}" title="">By
+                                <small><a href="{% url 'blogauthor' i.user.username %}" title="">By
                                         {{i.user}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end blog-box -->
@@ -231,7 +231,7 @@
                             {% endautoescape %}
                             <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.2.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
-                            <small><a href="blog-author/{{i.user.id}}" title="">by {{i.user}}</a></small>
+                            <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
                     </div><!-- end blog-box -->
 
@@ -265,7 +265,7 @@
                             {% endautoescape %}
                             <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.3.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
-                            <small><a href="blog-author/{{i.user.id}}" title="">by {{i.user}}</a></small>
+                            <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
                     </div><!-- end blog-box -->
 

@@ -18,23 +18,24 @@ def index(request):
     for i in trandingCatagories:
         trandingCatagoriesPosts.append(
             [i, BlogPost.objects.filter(catagory=i).filter(status="ACTIVE").order_by('-pub_date')])
-    print(trandingCatagoriesPosts)
+    # print(trandingCatagoriesPosts)
     context = {'trandingPosts': trandingBlogs,
                'trendingPostContent':  trandingCatagoriesPosts}
     return render(request, 'website/index.html', context)
 
 
-def single(request, id):
-    blogs = BlogPost.objects.get(id=id)
-    # print(blogs)
-    context = {
-        'blogs': blogs,
-    }
-    return render(request, 'website/single.html', context)
+# def single(request, id):
+#     blogs = BlogPost.objects.get(id=id)
+#     # print(blogs)
+#     context = {
+#         'blogs': blogs,
+#     }
+#     return render(request, 'website/single.html', context)
 
 
-def blogauthor(request, id):
-    user = User.objects.get(id=id)
+def blogauthor(request, username):
+    user = User.objects.get(username=username)
+    # print(user)
     blogs = BlogPost.objects.filter(user=user)
     author = Author.objects.get(user=user)
     # print(blogs)
@@ -114,6 +115,9 @@ def blog(request, slug):
     if blogpost.status != 'ACTIVE':
         return render(request, 'website/page-404.html')
 
+    # add view count
+    blogpost.views = blogpost.views + 1
+    blogpost.save()
     context = {
         'blogpost': blogpost,
         'pub_user': user,
