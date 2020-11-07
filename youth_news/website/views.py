@@ -2,12 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost
+from .models import Contact, BlogPost, Catagory
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 
 def index(request):
     trandingBlogs = BlogPost.objects.filter(isTranding=True).order_by('-pub_date')[:5]
-    context = {'trandingPosts': trandingBlogs}
+    trandingCatagories = Catagory.objects.filter(tranding=True).order_by('-date')[:5]
+    # print(BlogPost.objects.filter(catagory=trandingCatagories[1]))
+    # print(trandingCatagories[0])
+    trandingCatagoriesPosts = []
+    for i in range(len(trandingCatagories)):
+        trandingCatagoriesPosts.append(BlogPost.objects.filter(catagory=trandingCatagories[i]))
+    print(trandingCatagoriesPosts)
+    context = {'trandingPosts': trandingBlogs, 'trandingCatagories': trandingCatagories, 'trandingCatagoriesPosts': trandingCatagoriesPosts}
     return render(request, 'website/index.html', context)
     
 @unauthentiated_user

@@ -30,6 +30,7 @@ class Tag(models.Model):
 class Catagory(models.Model):
     text = models.CharField(max_length=200)
     tranding = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.text
 
