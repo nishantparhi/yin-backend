@@ -66,3 +66,19 @@ def slug_generator(sender, instance, *args, **kwargs):
         instance.slug = unique_slug_generator(instance)
     
 pre_save.connect(slug_generator, sender=BlogPost)
+
+#Author
+class Author(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # blogs= models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    description = models.TextField()
+    # date = models.DateTimeField(auto_now_add=True)
+    fb_url = models.CharField(max_length=250, null=True, blank=True)
+    yt_url = models.CharField(max_length=250, null=True, blank=True)
+    pint_url = models.CharField(max_length=250, null=True, blank=True)
+    twit_url = models.CharField(max_length=250, null=True, blank=True)
+    flickr_url = models.CharField(max_length=250, null=True, blank=True)
+    insta_url = models.CharField(max_length=250, null=True, blank=True)
+    gp_url = models.CharField(max_length=250, null=True, blank=True)
+    def __str__(self):
+        return str(self.user)
