@@ -9,8 +9,17 @@ from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 def index(request):
     trandingBlogs = BlogPost.objects.filter(
         isTranding=True).order_by('-pub_date')[:5]
+    trandingCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')[:5]
 
-    context = {'trandingPosts': trandingBlogs}
+    trandingCatagoriesPosts = []
+
+    for i in trandingCatagories:
+        trandingCatagoriesPosts.append(
+            [i, BlogPost.objects.filter(catagory=i).filter(status="ACTIVE").order_by('-pub_date')])
+    print(trandingCatagoriesPosts)
+    context = {'trandingPosts': trandingBlogs,
+               'trendingPostContent':  trandingCatagoriesPosts}
     return render(request, 'website/index.html', context)
 
 
@@ -25,12 +34,13 @@ def trendingCategories_processor(request):
     #         BlogPost.objects.filter(catagory=trandingCatagories[i]))
 
     for i in trandingCatagories:
-        trandingCatagoriesPosts.append(BlogPost.objects.filter(catagory=i))
-    print(zip(trandingCatagories, trandingCatagoriesPosts))
+        trandingCatagoriesPosts.append(
+            BlogPost.objects.filter(catagory=i).filter(status="ACTIVE"))
+    # print(trandingCatagoriesPosts[0][0].getFirstTag)
     return {'trandingCatagories': trandingCatagories, 'trandingCatagoriesPosts': zip(trandingCatagories, trandingCatagoriesPosts)}
 
 
-@unauthentiated_user
+@ unauthentiated_user
 def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -56,15 +66,15 @@ def contactPage(request):
         subject = request.POST['txtSubject']
         message = request.POST['txtMsg']
 
-    #form_class = ContactForm
+    # form_class = ContactForm
         contact = Contact(name=name, email=email, phone=phone,
                           subject=subject, message=message)
         contact.save()
     return render(request, 'website/page-contact.html')
 
 
-@login_required
-@notDeveloper()
+@ login_required
+@ notDeveloper()
 def dashboardPage(request):
     return render(request, 'website/dashboard.html')
 
