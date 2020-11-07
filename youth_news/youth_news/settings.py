@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
+    'youth_news'
 ]
 
 CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, 'upload')
@@ -56,6 +57,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'website.views.trendingCategories_processor',
+
             ],
         },
     },
@@ -124,7 +127,6 @@ LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
-EMAIL_USE_TLS = True 
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'yourmail@email.com'
 EMAIL_HOST_PASSWORD = 'your password'
-

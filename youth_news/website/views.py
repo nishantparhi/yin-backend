@@ -5,18 +5,31 @@ from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost, Catagory
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 
+
 def index(request):
-    trandingBlogs = BlogPost.objects.filter(isTranding=True).order_by('-pub_date')[:5]
-    trandingCatagories = Catagory.objects.filter(tranding=True).order_by('-date')[:5]
+    trandingBlogs = BlogPost.objects.filter(
+        isTranding=True).order_by('-pub_date')[:5]
+
+    context = {'trandingPosts': trandingBlogs}
+    return render(request, 'website/index.html', context)
+
+
+def trendingCategories_processor(request):
+    trandingCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')[:5]
     # print(BlogPost.objects.filter(catagory=trandingCatagories[1]))
     # print(trandingCatagories[0])
     trandingCatagoriesPosts = []
-    for i in range(len(trandingCatagories)):
-        trandingCatagoriesPosts.append(BlogPost.objects.filter(catagory=trandingCatagories[i]))
-    print(trandingCatagoriesPosts)
-    context = {'trandingPosts': trandingBlogs, 'trandingCatagories': trandingCatagories, 'trandingCatagoriesPosts': trandingCatagoriesPosts}
-    return render(request, 'website/index.html', context)
-    
+    # for i in range(len(trandingCatagories)):
+    #     trandingCatagoriesPosts.append(
+    #         BlogPost.objects.filter(catagory=trandingCatagories[i]))
+
+    for i in trandingCatagories:
+        trandingCatagoriesPosts.append(BlogPost.objects.filter(catagory=i))
+    print(zip(trandingCatagories, trandingCatagoriesPosts))
+    return {'trandingCatagories': trandingCatagories, 'trandingCatagoriesPosts': zip(trandingCatagories, trandingCatagoriesPosts)}
+
+
 @unauthentiated_user
 def register(request):
     if request.method == 'POST':
@@ -33,8 +46,9 @@ def register(request):
     context = {'form': form}
     return render(request, 'registration/signup.html', context)
 
+
 def contactPage(request):
-    if request.method =='POST':
+    if request.method == 'POST':
 
         name = request.POST['txtName']
         email = request.POST['txtEmail']
@@ -43,15 +57,16 @@ def contactPage(request):
         message = request.POST['txtMsg']
 
     #form_class = ContactForm
-        contact = Contact (name = name , email= email, phone=phone, subject= subject, message= message)
+        contact = Contact(name=name, email=email, phone=phone,
+                          subject=subject, message=message)
         contact.save()
     return render(request, 'website/page-contact.html')
+
 
 @login_required
 @notDeveloper()
 def dashboardPage(request):
     return render(request, 'website/dashboard.html')
-
 
 
 # View individual blog
@@ -61,18 +76,20 @@ def blog(request, slug):
         user = blogpost.user
     except:
         return render(request, 'website/page-404.html')
-    
+
     # if blog is not active then don't show anyone
     if blogpost.status != 'ACTIVE':
         return render(request, 'website/page-404.html')
 
     context = {
-        'blogpost':blogpost,
-        'pub_user':user,
+        'blogpost': blogpost,
+        'pub_user': user,
     }
     return render(request, 'website/single.html', context)
 
 # Create a new post
+
+
 @login_required
 @notDeveloper()
 def createPost(request):
@@ -87,7 +104,7 @@ def createPost(request):
             # status
             blogStatus = request.POST.get('status', None)
             # print(request.POST, blogStatus)
-            if ( blogStatus!=None) and (blogStatus == 'ACTIVE'):
+            if (blogStatus != None) and (blogStatus == 'ACTIVE'):
                 post_item.status = 'ACTIVE'
             else:
                 post_item.status = 'PENDING'
@@ -107,9 +124,11 @@ def createPost(request):
         if group == 'core_content_writter':
             isCore = True
 
-    return render(request, 'website/create_post.html', {'form':form, 'isCore': isCore})
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore})
 
 # Edit a post
+
+
 @login_required
 @notDeveloper()
 def editPost(request, slug=None):
@@ -118,7 +137,7 @@ def editPost(request, slug=None):
     if item.user != request.user:
         return render(request, 'website/page-404.html')
 
-    form = PostForm(request.POST or None ,instance=item)
+    form = PostForm(request.POST or None, instance=item)
     if form.is_valid():
         # form.save()
         post_item = form.save(commit=False)
@@ -126,7 +145,7 @@ def editPost(request, slug=None):
         # status
         blogStatus = request.POST.get('status', None)
         # print(request.POST, blogStatus)
-        if ( blogStatus!=None) and (blogStatus == 'ACTIVE'):
+        if (blogStatus != None) and (blogStatus == 'ACTIVE'):
             post_item.status = 'ACTIVE'
         else:
             post_item.status = 'PENDING'
@@ -135,7 +154,7 @@ def editPost(request, slug=None):
             return redirect(f'/news/{post_item.slug}')
         else:
             return redirect('dashboard')
-    
+
     # if the user is core member or not
     isCore = False
     group = None
@@ -143,9 +162,11 @@ def editPost(request, slug=None):
         group = request.user.groups.all()[0].name
     if group == 'core_content_writter':
         isCore = True
-    return render(request, 'website/create_post.html', {'form':form, 'isCore': isCore})
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore})
 
 # Delete a  Blog
+
+
 @login_required
 @notDeveloper()
 def deletePost(request, slug):
@@ -155,65 +176,81 @@ def deletePost(request, slug):
     return redirect('dashboard')
 
 # View Blogs
+
+
 @login_required
 @notDeveloper()
 def viewBlogs(request):
     user = request.user
-    allBlogs = BlogPost.objects.filter(status="ACTIVE", user=user).order_by('-pub_date')
+    allBlogs = BlogPost.objects.filter(
+        status="ACTIVE", user=user).order_by('-pub_date')
     context = {
-        'blogs':allBlogs
+        'blogs': allBlogs
     }
     # print(allBlogs)
     return render(request, 'website/approved_blogs.html', context)
 
 # Pending Blogs
+
+
 @login_required
 @notDeveloper()
 def pendingBlogs(request):
     user = request.user
-    allBlogs = BlogPost.objects.filter(status="PENDING", user=user).order_by('-pub_date')
+    allBlogs = BlogPost.objects.filter(
+        status="PENDING", user=user).order_by('-pub_date')
     context = {
-        'blogs':allBlogs
+        'blogs': allBlogs
     }
     return render(request, 'website/pending_blogs.html', context)
 
 # Developer Dashboard
+
+
 @login_required
 @onlyDeveloper()
 def developerDashboard(request):
     return render(request, 'website/dashboard_admin.html')
 
 # Developer pending post
+
+
 @login_required
 @onlyDeveloper()
 def pendingBlogsDeveloper(request):
     allBlogs = BlogPost.objects.filter(status="PENDING").order_by('-pub_date')
     context = {
-        'blogs':allBlogs
+        'blogs': allBlogs
     }
     return render(request, 'website/pending_posts_developer.html', context)
 
 # Developer pending post
+
+
 @login_required
 @onlyDeveloper()
 def approvedBlogsDeveloper(request):
     allBlogs = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')
     context = {
-        'blogs':allBlogs
+        'blogs': allBlogs
     }
     return render(request, 'website/approved_posts_developer.html', context)
 
 # Developer all post
+
+
 @login_required
 @onlyDeveloper()
 def allBlogsDeveloper(request):
     allBlogs = BlogPost.objects.all().order_by('-pub_date')
     context = {
-        'blogs':allBlogs
+        'blogs': allBlogs
     }
     return render(request, 'website/all_posts_developer.html', context)
 
 # Developer approve post
+
+
 @login_required
 @onlyDeveloper()
 def approvePost(request, slug):
@@ -226,6 +263,8 @@ def approvePost(request, slug):
     return redirect('pending_blogs_developer')
 
 # Developer pending post
+
+
 @login_required
 @onlyDeveloper()
 def pendingPost(request, slug):
@@ -247,8 +286,10 @@ def deletePostDeveloper(request, slug):
     except:
         pass
     return redirect('pending_blogs_developer')
-    
+
 # preview a post
+
+
 @login_required
 @onlyDeveloper()
 def previewPost(request, slug):
@@ -258,7 +299,7 @@ def previewPost(request, slug):
     except:
         return redirect('pending_blogs_developer')
     context = {
-        'blogpost':blog,
-        'pub_user':user,
+        'blogpost': blog,
+        'pub_user': user,
     }
     return render(request, 'website/single_preview.html', context)
