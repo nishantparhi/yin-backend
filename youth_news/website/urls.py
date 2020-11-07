@@ -8,7 +8,11 @@ urlpatterns = [
 
     # Dashboard
     path('dashboard/', views.dashboardPage, name="dashboard"),
+    # Single
+    path('single/<int:id>/', views.single, name="single"),
 
+    # BlogAuthor
+    path('blog-author/<int:id>/', views.blogauthor, name="blogauthor"),
     # Registration
     path('register/',views.register, name='register'),
 

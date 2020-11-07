@@ -38,7 +38,7 @@
                                         title="">{{trandingPosts.2.blog_title}}</a></h4>
                                 <small><a href="{% url 'blog' trandingPosts.2.slug%}"
                                         title="">{{trandingPosts.2.pub_date}}</a></small>
-                                <small><a href="blog-author.html" title="">by
+                                <small><a href="blog-author" title="">by
                                         {{trandingPosts.2.user.username}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end shadow-desc -->
@@ -231,7 +231,7 @@
                             {% endautoescape %}
                             <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.2.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
-                            <small><a href="{% url 'blog' i.slug%}" title="">by {{i.user}}</a></small>
+                            <small><a href="blog-author/{{i.user.id}}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
                     </div><!-- end blog-box -->
 
@@ -265,7 +265,7 @@
                             {% endautoescape %}
                             <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.3.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
-                            <small><a href="{% url 'blog' i.slug%}" title="">by {{i.user}}</a></small>
+                            <small><a href="blog-author/{{i.user.id}}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
                     </div><!-- end blog-box -->
 

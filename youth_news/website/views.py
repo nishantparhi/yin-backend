@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost, Catagory
+from .models import Contact, BlogPost, Catagory, Author
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -21,6 +22,28 @@ def index(request):
     context = {'trandingPosts': trandingBlogs,
                'trendingPostContent':  trandingCatagoriesPosts}
     return render(request, 'website/index.html', context)
+
+
+def single(request, id):
+    blogs = BlogPost.objects.get(id=id)
+    # print(blogs)
+    context = {
+        'blogs': blogs,
+    }
+    return render(request, 'website/single.html', context)
+
+
+def blogauthor(request, id):
+    user = User.objects.get(id=id)
+    blogs = BlogPost.objects.filter(user=user)
+    author = Author.objects.get(user=user)
+    # print(blogs)
+
+    context = {
+        'blogs': blogs,
+        'author': author,
+    }
+    return render(request, 'website/blog-author.html', context)
 
 
 def trendingCategories_processor(request):
