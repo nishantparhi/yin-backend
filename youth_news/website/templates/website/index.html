@@ -11,7 +11,7 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-aqua"><a href="blog-category-01.html"
+                                <span class="bg-aqua"><a href="{% url 'blog-catagory' trandingPosts.4.catagory.all.0 %}"
                                         title="">{{trandingPosts.4.catagory.all.0}}</a></span>
                                 <h4><a href="{% url 'blog' trandingPosts.4.slug%}"
                                         title="">{{trandingPosts.4.blog_title}}</a></h4>
@@ -32,7 +32,7 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html"
+                                <span class="bg-green"><a href="{% url 'blog-catagory' trandingPosts.2.catagory.all.0 %}"
                                         title="">{{trandingPosts.2.catagory.all.0}}</a></span>
                                 <h4><a href="{% url 'blog' trandingPosts.2.slug%}"
                                         title="">{{trandingPosts.2.blog_title}}</a></h4>
@@ -51,7 +51,7 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html"
+                                <span class="bg-green"><a href="{% url 'blog-catagory' trandingPosts.0.catagory.all.0 %}"
                                         title="">{{trandingPosts.0.catagory.all.0}}</a></span>
                                 <h4><a href="{% url 'blog' trandingPosts.0.slug%}"
                                         title="">{{trandingPosts.0.blog_title}}</a></h4>
@@ -66,7 +66,7 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-green"><a href="blog-category-01.html"
+                                <span class="bg-green"><a href="{% url 'blog-catagory' trandingPosts.1.catagory.all.0 %}"
                                         title="">{{trandingPosts.1.catagory.all.0}}</a></span>
                                 <h4><a href="{% url 'blog' trandingPosts.1.slug%}"
                                         title="">{{trandingPosts.1.blog_title}}</a></h4>
@@ -83,7 +83,7 @@
                     <div class="shadoweffect">
                         <div class="shadow-desc">
                             <div class="blog-meta">
-                                <span class="bg-aqua"><a href="blog-category-01.html"
+                                <span class="bg-aqua"><a href="{% url 'blog-catagory' trandingPosts.3.catagory.all.0 %}"
                                         title="">{{trandingPosts.3.catagory.all.0}}</a></span>
                                 <h4><a href="{% url 'blog' trandingPosts.3.slug%}"
                                         title="">{{trandingPosts.3.blog_title}}</a></h4>
@@ -105,7 +105,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="section-title">
-                    <h3 class="color-aqua"><a href="blog-category-01.html" title="">{{trandingCatagories.0}}</a></h3>
+                    <h3 class="color-aqua"><a href="{% url 'blog-catagory' trandingCatagories.0 %}" title="">{{trandingCatagories.0}}</a></h3>
                 </div><!-- end title -->
                 <!-- cat 1 -->
                 <div class="row">
@@ -130,7 +130,7 @@
                                 {{i.blog_content|truncatechars:500}}<br>
                                 {% endautoescape %}
 
-                                <small><a href="blog-category-01.html" title="">{{trandingCatagories.0}}</a></small>
+                                <small><a href="{% url 'blog-catagory' trandingCatagories.0 %}" title="">{{trandingCatagories.0}}</a></small>
                                 <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
                                 <small><a href="{% url 'blogauthor' i.user.username %}" title="">By
                                         {{i.user}}</a></small>
@@ -149,7 +149,7 @@
             <!-- cat 2 -->
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="section-title">
-                    <h3 class="color-pink"><a href="blog-category-01.html" title="">{{trandingCatagories.1}}</a>
+                    <h3 class="color-pink"><a href="{% url 'blog-catagory' trandingCatagories.1 %}" title="">{{trandingCatagories.1}}</a>
                     </h3>
                 </div><!-- end title -->
                 <div class="row">
@@ -173,7 +173,7 @@
                             </div><!-- end media -->
                             <div class="blog-meta">
                                 <h4><a href="{% url 'blog' i.slug%}" title="">{{i}}</a></h4>
-                                <small><a href="blog-category-01.html" title="">{{trandingCatagories.1}}</a></small>
+                                <small><a href="{% url 'blog-catagory' trandingCatagories.1 %}" title="">{{trandingCatagories.1}}</a></small>
                                 <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
                             </div><!-- end meta -->
                         </div><!-- end blog-box -->
@@ -208,7 +208,7 @@
 
                 <div class="blog-list clearfix">
                     <div class="section-title">
-                        <h3 class="color-green"><a href="blog-category-01.html"
+                        <h3 class="color-green"><a href="{% url 'blog-catagory' trendingPostContent.2.0 %}"
                                 title="">{{ trendingPostContent.2.0}}</a></h3>
                     </div><!-- end title -->
                     {% for i in trendingPostContent.2.1 %}
@@ -241,7 +241,7 @@
                 </div>
                 <div class="blog-list clearfix">
                     <div class="section-title">
-                        <h3 class="color-green"><a href="blog-category-01.html"
+                        <h3 class="color-green"><a href="{% url 'blog-catagory' trendingPostContent.3.0 %}"
                                 title="">{{ trendingPostContent.3.0}}</a></h3>
                     </div>
                     {% for i in trendingPostContent.3.1 %}
@@ -278,7 +278,7 @@
 
             <div class="col-lg-3">
                 <div class="section-title">
-                    <h3 class="color-yellow"><a href="blog-category-01.html" title="">{{trendingPostContent.5.0}}</a></h3>
+                    <h3 class="color-yellow"><a href="{% url 'blog-catagory' trendingPostContent.5.0 %}" title="">{{trendingPostContent.5.0}}</a></h3>
                 </div><!-- end title -->
                 {% for i in trendingPostContent.5.1 %}
                 {% if forloop.counter < 3 %}
@@ -293,8 +293,8 @@
                     </div><!-- end media -->
                     <div class="blog-meta">
                         <h4><a href="{% url 'blog' i.slug%}" title="">{{i.blog_title}}</a></h4>
-                        <small><a href="blog-category-01.html" title="">{{trendingPostContent.5.0}}</a></small>
-                        <small><a href="blog-category-01.html" title="">{{i.pub_date}}</a></small>
+                        <small><a href="{% url 'blog-catagory' trendingPostContent.5.0 %}" title="">{{trendingPostContent.5.0}}</a></small>
+                        <small><a href="{% url 'blog-catagory' trendingPostContent.5.0 %}" title="">{{i.pub_date}}</a></small>
                     </div><!-- end meta -->
                 </div><!-- end blog-box -->
 
@@ -303,7 +303,7 @@
                 {% endfor %}
 
                 <div class="section-title">
-                    <h3 class="color-yellow"><a href="blog-category-01.html" title="">{{trendingPostContent.4.0}}</a></h3>
+                    <h3 class="color-yellow"><a href="{% url 'blog-catagory' trendingPostContent.4.0 %}" title="">{{trendingPostContent.4.0}}</a></h3>
                 </div><!-- end title -->
                 {% for i in trendingPostContent.4.1 %}
                 {% if forloop.counter < 3 %}
@@ -318,8 +318,8 @@
                     </div><!-- end media -->
                     <div class="blog-meta">
                         <h4><a href="{% url 'blog' i.slug%}" title="">{{i.blog_title}}</a></h4>
-                        <small><a href="blog-category-01.html" title="">{{trendingPostContent.4.0}}</a></small>
-                        <small><a href="blog-category-01.html" title="">{{i.pub_date}}</a></small>
+                        <small><a href="{% url 'blog-catagory' trendingPostContent.4.0 %}" title="">{{trendingPostContent.4.0}}</a></small>
+                        <small><a href="{% url 'blog-catagory' trendingPostContent.4.0 %}" title="">{{i.pub_date}}</a></small>
                     </div><!-- end meta -->
                 </div><!-- end blog-box -->
 

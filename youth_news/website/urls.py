@@ -5,12 +5,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.index, name='index'),
     path('contact-us/', views.contactPage, name="contact"),
-    path('blog-category-A/', views.blog_A, name="bcategoryA"),
-    path('blog-category-B/', views.blog_B, name="bcategoryB"),
-    path('blog-category-C/', views.blog_C, name="bcategoryC"),
-    path('blog-category-D/', views.blog_D, name="bcategoryD"),
-    path('blog-category-E/', views.blog_E, name="bcategoryE"),
-    path('blog-category-F/', views.blog_F, name="bcategoryF"),
+    path('blog-catagory/<str:catagory>/', views.blogCatagory, name="blog-catagory"),
     # Dashboard
     path('dashboard/', views.dashboardPage, name="dashboard"),
     # Single

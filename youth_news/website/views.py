@@ -21,11 +21,16 @@ def index(request):
 
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     # print(trandingCatagoriesPosts)
     context = {'trandingPosts': trandingBlogs,
                'trendingPostContent':  trandingCatagoriesPosts,
                'recentPosts': recentPosts,
-               'popularPosts': popularPosts}
+               'popularPosts': popularPosts,
+               'popularCatagoriesDict': popularCatagoriesDict}
     return render(request, 'website/index.html', context)
 
 
@@ -46,11 +51,16 @@ def blogauthor(request, username):
     # print(blogs)
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     context = {
         'blogs': blogs,
         'author': author,
         'recentPosts': recentPosts,
-        'popularPosts': popularPosts
+        'popularPosts': popularPosts,
+        'popularCatagoriesDict': popularCatagoriesDict
     }
     return render(request, 'website/blog-author.html', context)
 
@@ -104,7 +114,11 @@ def contactPage(request):
         contact.save()
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts}
+    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
+    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts,'popularCatagoriesDict': popularCatagoriesDict}
     return render(request, 'website/page-contact.html', context)
 
 
@@ -131,6 +145,10 @@ def blog(request, slug):
     blogpost.save()
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     author = Author.objects.get(user=user)
     realatedPost = BlogPost.objects.filter(
         catagory=blogpost.catagory.first()).filter(status="ACTIVE").order_by('-pub_date')[:2]
@@ -145,7 +163,8 @@ def blog(request, slug):
         'popularPosts': popularPosts,
         'realatedPost': realatedPost,
         'prevNextPost': prevNextPost,
-        'comments': comments
+        'comments': comments,
+        'popularCatagoriesDict': popularCatagoriesDict
     }
     return render(request, 'website/single.html', context)
 
@@ -382,17 +401,20 @@ def comment(request, id):
     return redirect('/news/'+str(currentBlog.slug))
 	
 	
-def blog_A(request):
-    return render(request, 'website/blog-category-01.html')
+def blogCatagory(request, catagory):
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
+    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts,'popularCatagoriesDict': popularCatagoriesDict}
 
-def blog_B(request):
-    return render(request, 'website/blog-category-02.html')
-def blog_C(request):
-    return render(request, 'website/blog-category-03.html')
-def blog_D(request):
-    return render(request, 'website/blog-category-04.html')
-def blog_E(request):
-    return render(request, 'website/blog-category-05.html')
-def blog_F(request):
-    return render(request, 'website/blog-category-06.html')
-	
+    try:
+        thisCatagory = Catagory.objects.get(text = catagory)
+    except:
+        return render(request, 'website/page-404.html', context)
+    blogs = BlogPost.objects.filter(catagory=thisCatagory).order_by('-pub_date')
+    context['catagory'] = thisCatagory
+    context['blogs'] = blogs
+    return render(request, 'website/blog-category.html', context)
