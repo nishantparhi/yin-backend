@@ -129,14 +129,21 @@ def blog(request, slug):
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
     author = Author.objects.get(user=user)
+    realatedPost = BlogPost.objects.filter(
+        catagory=blogpost.catagory.first()).filter(status="ACTIVE").order_by('-pub_date')[:2]
+    prevNextPost = BlogPost.objects.filter(
+        user=blogpost.user).filter(status="ACTIVE").exclude(id=blogpost.id).order_by('-pub_date')[:2]
+    print(prevNextPost[0].coverPic)
     context = {
         'blogpost': blogpost,
         'author': author,
         'recentPosts': recentPosts,
-        'popularPosts': popularPosts
+        'popularPosts': popularPosts,
+        'realatedPost': realatedPost,
+        'prevNextPost': prevNextPost
     }
     return render(request, 'website/single.html', context)
-    
+
 
 # Create a new post
 @login_required

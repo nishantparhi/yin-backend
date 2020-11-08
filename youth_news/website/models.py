@@ -102,7 +102,8 @@ class Author(models.Model):
     flickr_url = models.CharField(max_length=250, null=True, blank=True)
     insta_url = models.CharField(max_length=250, null=True, blank=True)
     personal_url = models.CharField(max_length=250, null=True, blank=True)
-    profile_pic = models.ImageField(upload_to='author_profile_pic/', default="/author_profile_pic/default.png")
+    profile_pic = models.ImageField(
+        upload_to='author_profile_pic/', default="/author_profile_pic/default.png")
 
     def __str__(self):
         return str(self.user)
