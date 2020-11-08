@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost, Catagory, Author
+from .models import Contact, BlogPost, Catagory, Author, Comment
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User
 
@@ -11,44 +11,53 @@ def index(request):
     trandingBlogs = BlogPost.objects.filter(
         isTranding=True).order_by('-pub_date')[:5]
     trandingCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')[:5]
+        tranding=True).order_by('-date')[:6]
 
     trandingCatagoriesPosts = []
 
     for i in trandingCatagories:
         trandingCatagoriesPosts.append(
             [i, BlogPost.objects.filter(catagory=i).filter(status="ACTIVE").order_by('-pub_date')])
-    print(trandingCatagoriesPosts)
+
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    # print(trandingCatagoriesPosts)
     context = {'trandingPosts': trandingBlogs,
-               'trendingPostContent':  trandingCatagoriesPosts}
+               'trendingPostContent':  trandingCatagoriesPosts,
+               'recentPosts': recentPosts,
+               'popularPosts': popularPosts}
     return render(request, 'website/index.html', context)
 
 
-def single(request, id):
-    blogs = BlogPost.objects.get(id=id)
-    # print(blogs)
-    context = {
-        'blogs': blogs,
-    }
-    return render(request, 'website/single.html', context)
+# def single(request, id):
+#     blogs = BlogPost.objects.get(id=id)
+#     # print(blogs)
+#     context = {
+#         'blogs': blogs,
+#     }
+#     return render(request, 'website/single.html', context)
 
 
-def blogauthor(request, id):
-    user = User.objects.get(id=id)
+def blogauthor(request, username):
+    user = User.objects.get(username=username)
+    # print(user)
     blogs = BlogPost.objects.filter(user=user)
     author = Author.objects.get(user=user)
     # print(blogs)
-
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
     context = {
         'blogs': blogs,
         'author': author,
+        'recentPosts': recentPosts,
+        'popularPosts': popularPosts
     }
     return render(request, 'website/blog-author.html', context)
 
 
 def trendingCategories_processor(request):
     trandingCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')[:5]
+        tranding=True).order_by('-date')[:6]
     # print(BlogPost.objects.filter(catagory=trandingCatagories[1]))
     # print(trandingCatagories[0])
     trandingCatagoriesPosts = []
@@ -93,7 +102,10 @@ def contactPage(request):
         contact = Contact(name=name, email=email, phone=phone,
                           subject=subject, message=message)
         contact.save()
-    return render(request, 'website/page-contact.html')
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts}
+    return render(request, 'website/page-contact.html', context)
 
 
 @ login_required
@@ -114,15 +126,31 @@ def blog(request, slug):
     if blogpost.status != 'ACTIVE':
         return render(request, 'website/page-404.html')
 
+    # add view count
+    blogpost.views = blogpost.views + 1
+    blogpost.save()
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    author = Author.objects.get(user=user)
+    realatedPost = BlogPost.objects.filter(
+        catagory=blogpost.catagory.first()).filter(status="ACTIVE").order_by('-pub_date')[:2]
+    prevNextPost = BlogPost.objects.filter(
+        user=blogpost.user).filter(status="ACTIVE").exclude(id=blogpost.id).order_by('-pub_date')[:2]
+    print(prevNextPost[0].coverPic)
+    comments = Comment.objects.filter(blog=blogpost)
     context = {
         'blogpost': blogpost,
-        'pub_user': user,
+        'author': author,
+        'recentPosts': recentPosts,
+        'popularPosts': popularPosts,
+        'realatedPost': realatedPost,
+        'prevNextPost': prevNextPost,
+        'comments': comments
     }
     return render(request, 'website/single.html', context)
 
+
 # Create a new post
-
-
 @login_required
 @notDeveloper()
 def createPost(request):
@@ -269,6 +297,13 @@ def approvedBlogsDeveloper(request):
     }
     return render(request, 'website/approved_posts_developer.html', context)
 
+@login_required
+@onlyDeveloper()
+def contactFormDeveloper(request):
+    contactInfos = Contact.objects.all().order_by('-date')
+    context = {'contactInfos':contactInfos}
+    return render(request, 'website/contact_form_developer.html', context)
+
 # Developer all post
 
 
@@ -338,6 +373,15 @@ def previewPost(request, slug):
     return render(request, 'website/single_preview.html', context)
 
 
+@login_required
+def comment(request, id):
+    currentBlog = BlogPost.objects.get(id=id)
+    comment = Comment(blog=currentBlog, author=Author.objects.get(user=request.user),
+                      comment=request.POST.get('comment'))
+    comment.save()
+    return redirect('/news/'+str(currentBlog.slug))
+	
+	
 def blog_A(request):
     return render(request, 'website/blog-category-01.html')
 
@@ -351,3 +395,4 @@ def blog_E(request):
     return render(request, 'website/blog-category-05.html')
 def blog_F(request):
     return render(request, 'website/blog-category-06.html')
+	
