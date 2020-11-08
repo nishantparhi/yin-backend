@@ -102,7 +102,10 @@ def contactPage(request):
         contact = Contact(name=name, email=email, phone=phone,
                           subject=subject, message=message)
         contact.save()
-    return render(request, 'website/page-contact.html')
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts}
+    return render(request, 'website/page-contact.html', context)
 
 
 @ login_required
@@ -293,6 +296,13 @@ def approvedBlogsDeveloper(request):
         'blogs': allBlogs
     }
     return render(request, 'website/approved_posts_developer.html', context)
+
+@login_required
+@onlyDeveloper()
+def contactFormDeveloper(request):
+    contactInfos = Contact.objects.all().order_by('-date')
+    context = {'contactInfos':contactInfos}
+    return render(request, 'website/contact_form_developer.html', context)
 
 # Developer all post
 

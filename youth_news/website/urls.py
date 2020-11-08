@@ -59,6 +59,7 @@ urlpatterns = [
     path('all_blogs_developer/', views.allBlogsDeveloper,
          name="all_blogs_developer"),
     path('approve_post/<slug:slug>/', views.approvePost, name='approve_post'),
+    path('contact_form_developer/', views.contactFormDeveloper, name='contact_form_developer'),
     path('pending_post/<slug:slug>/', views.pendingPost, name='pending_post'),
     path('delete_post_developer/<slug:slug>/',
          views.deletePostDeveloper, name='delete_post_developer'),

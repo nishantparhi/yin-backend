@@ -1,0 +1,34 @@
+{% extends 'website/post_base.html' %}
+{% block title %}Contact form Details{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <h3>Contact form Details</h3>
+    <table class="table mt-3 responsive-table ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Date</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contactInfo in contactInfos %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{contactInfo.name}}</td>
+                <td>{{contactInfo.email}}</td>
+                <td>{{contactInfo.date|date:"M d, Y"}}</td>
+                <td>{{contactInfo.phone}}</td>
+                <td>{{contactInfo.subject}}</td>
+                <td>{{contactInfo.message}}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
