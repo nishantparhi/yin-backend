@@ -11,16 +11,21 @@ def index(request):
     trandingBlogs = BlogPost.objects.filter(
         isTranding=True).order_by('-pub_date')[:5]
     trandingCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')[:5]
+        tranding=True).order_by('-date')[:6]
 
     trandingCatagoriesPosts = []
 
     for i in trandingCatagories:
         trandingCatagoriesPosts.append(
             [i, BlogPost.objects.filter(catagory=i).filter(status="ACTIVE").order_by('-pub_date')])
+
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
     # print(trandingCatagoriesPosts)
     context = {'trandingPosts': trandingBlogs,
-               'trendingPostContent':  trandingCatagoriesPosts}
+               'trendingPostContent':  trandingCatagoriesPosts,
+               'recentPosts': recentPosts,
+               'popularPosts': popularPosts}
     return render(request, 'website/index.html', context)
 
 
@@ -39,17 +44,20 @@ def blogauthor(request, username):
     blogs = BlogPost.objects.filter(user=user)
     author = Author.objects.get(user=user)
     # print(blogs)
-
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
     context = {
         'blogs': blogs,
         'author': author,
+        'recentPosts': recentPosts,
+        'popularPosts': popularPosts
     }
     return render(request, 'website/blog-author.html', context)
 
 
 def trendingCategories_processor(request):
     trandingCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')[:5]
+        tranding=True).order_by('-date')[:6]
     # print(BlogPost.objects.filter(catagory=trandingCatagories[1]))
     # print(trandingCatagories[0])
     trandingCatagoriesPosts = []
@@ -118,15 +126,19 @@ def blog(request, slug):
     # add view count
     blogpost.views = blogpost.views + 1
     blogpost.save()
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    author = Author.objects.get(user=user)
     context = {
         'blogpost': blogpost,
-        'pub_user': user,
+        'author': author,
+        'recentPosts': recentPosts,
+        'popularPosts': popularPosts
     }
     return render(request, 'website/single.html', context)
+    
 
 # Create a new post
-
-
 @login_required
 @notDeveloper()
 def createPost(request):

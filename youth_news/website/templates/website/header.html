@@ -109,6 +109,7 @@
                                 <div class="mega-menu-content clearfix">
                                     <div class="tab">
                                         {% for cat in trandingCatagories %}
+                                        {% if forloop.counter < 6 %}
                                         {% if forloop.counter == 1 %}
                                         <button class="tablinks active"
                                             onclick="openCategory(event, '{{cat.id}}')">{{cat.text}}</button>
@@ -121,6 +122,7 @@
                                         <button class="tablinks"
                                             onclick="openCategory(event, 'cat04')">Architecture</button>
                                         <button class="tablinks" onclick="openCategory(event, 'cat05')">Recipes</button> -->
+                                        {% endif %}
                                         {% endfor %}
                                     </div>
 
@@ -137,6 +139,7 @@
 
                                                 <div class="row">
                                                     {% for j in i.1 %}
+                                                    {% if forloop.counter < 5 %}
                                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                                         <div class="blog-box">
                                                             <div class="post-media">
@@ -159,7 +162,7 @@
 
 
 
-
+                                                    {% endif %}
                                                     {% endfor %}
                                                 </div><!-- end row -->
                                             </div>

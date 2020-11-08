@@ -19,7 +19,7 @@
 
                                 <div class="blog-meta big-meta">
                                     <small><a href="{% url 'blog' blogpost.slug %}" title="">{{blogpost.pub_date}}</a></small>
-                                    <small><a href="blog-author.html" title="">by {{blogpost.user.username}}</a></small>
+                                    <small><a href="{% url 'blogauthor' blogpost.user.username %}" title="">by {{blogpost.user.username}}</a></small>
                                     <small><a href="#" title=""><i class="fa fa-eye"></i> {{blogpost.views}}</a></small>
                                 </div><!-- end meta -->
 
@@ -109,20 +109,20 @@
                                 <h4 class="small-title">About author</h4>
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <img src="{% static 'upload/author.jpg' %}" alt="" class="img-fluid rounded-circle"> 
+                                        <img src="{{author.profile_pic.url}}" alt="" class="img-fluid rounded-circle"> 
                                     </div><!-- end col -->
 
                                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                                        <h4><a href="#">Jessica</a></h4>
-                                        <p>Quisque sed tristique felis. Lorem <a href="#">visit my website</a> amet, consectetur adipiscing elit. Phasellus quis mi auctor, tincidunt nisl eget, finibus odio. Duis tempus elit quis risus congue feugiat. Thanks for stop Cloapedia!</p>
+                                        <h4><a href="#">{{author.user.username|capfirst}}</a></h4>
+                                        <p>{{author.description}}</p>
 
                                         <div class="topsocial">
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
+                                            <a href="{{author.fb_url}}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                            <a href="{{author.yt_url}}" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
+                                            <a href="{{author.pint_url}}" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                                            <a href="{{author.twit_url}}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                            <a href="{{author.insta_url}}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                            <a href="{{author.personal_url}}" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
                                         </div><!-- end social -->
 
                                     </div><!-- end col -->
@@ -254,27 +254,27 @@
                                 <h2 class="widget-title">Recent Posts</h2>
                                 <div class="blog-list-widget">
                                     <div class="list-group">
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <a href="{% url 'blog' recentPosts.0.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
-                                                <img src="{% static 'upload/blog_square_01.jpg' %}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">5 Beautiful buildings you need to before dying</h5>
-                                                <small>12 Jan, 2016</small>
+                                                <img src="{{recentPosts.0.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.0.blog_title}}</h5>
+                                                <small>{{recentPosts.0.pub_date }}</small>
                                             </div>
                                         </a>
 
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <a href="{% url 'blog' recentPosts.1.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
-                                                <img src="{% static 'upload/blog_square_02.jpg' %}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Let's make an introduction for creative life</h5>
-                                                <small>11 Jan, 2016</small>
+                                                <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
+                                                <small>{{recentPosts.1.pub_date }}</small>
                                             </div>
                                         </a>
 
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <a href="{% url 'blog' recentPosts.2.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 last-item justify-content-between">
-                                                <img src="upload/blog_square_03.jpg" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Did you see the most beautiful sea in the world?</h5>
-                                                <small>07 Jan, 2016</small>
+                                                <img src="{{recentPosts.2.coverPic.url}}" alt="" class="img-fluid float-left"  style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.2.blog_title}}</h5>
+                                                <small>{{recentPosts.2.pub_date }}</small>
                                             </div>
                                         </a>
                                     </div>
