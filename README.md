@@ -19,7 +19,6 @@ pip install -r requirements.txt
 
 # run the server
 cd youth_news
-python manage.py migrate
 python manage.py runserver
 ```
 Now open http://localhost:8000/ in your browser.
