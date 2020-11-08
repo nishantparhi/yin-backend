@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost, Catagory, Author
+from .models import Contact, BlogPost, Catagory, Author, Comment
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User
 
@@ -134,13 +134,15 @@ def blog(request, slug):
     prevNextPost = BlogPost.objects.filter(
         user=blogpost.user).filter(status="ACTIVE").exclude(id=blogpost.id).order_by('-pub_date')[:2]
     print(prevNextPost[0].coverPic)
+    comments = Comment.objects.filter(blog=blogpost)
     context = {
         'blogpost': blogpost,
         'author': author,
         'recentPosts': recentPosts,
         'popularPosts': popularPosts,
         'realatedPost': realatedPost,
-        'prevNextPost': prevNextPost
+        'prevNextPost': prevNextPost,
+        'comments': comments
     }
     return render(request, 'website/single.html', context)
 
@@ -359,3 +361,12 @@ def previewPost(request, slug):
         'pub_user': user,
     }
     return render(request, 'website/single_preview.html', context)
+
+
+@login_required
+def comment(request, id):
+    currentBlog = BlogPost.objects.get(id=id)
+    comment = Comment(blog=currentBlog, author=Author.objects.get(user=request.user),
+                      comment=request.POST.get('comment'))
+    comment.save()
+    return redirect('/news/'+str(currentBlog.slug))

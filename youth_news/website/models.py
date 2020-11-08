@@ -107,3 +107,10 @@ class Author(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class Comment(models.Model):
+    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
+    comment = models.TextField()
+    pub_date = models.DateTimeField(auto_now_add=True)
