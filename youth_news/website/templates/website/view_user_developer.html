@@ -1,0 +1,24 @@
+{% extends 'website/post_base.html' %}
+{% block title %}User - {{user.username}}{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-between">
+        <h1>{{user.username}}</h1>
+        <a href="{% url 'blogauthor' user.username %}" target="_blank" class="btn btn-info">View Profile</a>
+    </div>
+    <p class="text-muted">User Role - {{role}}</p>
+
+    <form action="" method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="userrole">Change User Role :</label>
+            <select name="userrole" id="userrole" class="custom-select">
+                <option value="general_content_writer" selected>General Content Writer</option>
+                <option value="core_content_writter">Core Content Writter</option>
+                <option value="developer">Developer Account</option>
+            </select>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    
+</div>
+{% endblock %}

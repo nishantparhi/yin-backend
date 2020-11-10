@@ -114,3 +114,6 @@ class Comment(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
     comment = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment

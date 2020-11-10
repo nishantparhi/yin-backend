@@ -66,4 +66,5 @@ urlpatterns = [
     path('preview/<slug:slug>/', views.previewPost, name="preview_post"),
     path('comment/<int:id>/', views.comment, name="comment"),
     path('user_roles/', views.userRoles, name="userRoles"),
+    path('view-user/<str:username>/', views.viewUser, name="viewUser"),
 ]

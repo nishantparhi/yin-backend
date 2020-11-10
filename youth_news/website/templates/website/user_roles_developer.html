@@ -18,7 +18,7 @@
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{user.username}}</td>
                 <td>{{userRole}}</td>
-                <td><a href="#"
+                <td><a href="{% url 'viewUser' user.username%}"
                         class="btn btn-outline-info">View</a></td>
             </tr>
             {% endfor %}

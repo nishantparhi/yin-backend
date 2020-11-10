@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost, Catagory, Author, Comment, Tag
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 def index(request):
@@ -187,7 +187,7 @@ def createPost(request):
             user=request.user,
             blog_title=request.POST.get('blog_title'),
             blog_content=request.POST.get('blog_content'),
-            status=request.POST.get('status'),
+            status=request.POST.get('status') or 'PENDING',
             coverPic=request.FILES.get('coverPic')
 
 
@@ -255,7 +255,7 @@ def editPost(request, slug=None):
 
         item.blog_title = request.POST.get('blog_title')
         item.blog_content = request.POST.get('blog_content')
-        item.status = request.POST.get('status')
+        item.status = request.POST.get('status') or 'PENDING'
         if(request.FILES.get('coverPic') != None):
             item.coverPic = request.FILES.get('coverPic')
 
@@ -499,3 +499,28 @@ def userRoles(request):
 
     context = {'userRoleDict': userRoleDict}
     return render(request, 'website/user_roles_developer.html', context)
+
+# View a User
+@login_required
+@onlyDeveloper()
+def viewUser(request, username):
+    try:
+        user = User.objects.get(username=username)
+        role = user.groups.all()[0]
+    except:
+        return redirect('userRoles')
+
+    if request.method == 'POST':
+        userrole = request.POST.get('userrole')
+        if userrole == 'developer' or userrole == 'core_content_writter' or userrole=='general_content_writer':
+            # remove privious 
+            user.groups.clear()
+            # add new
+            groupNew = Group.objects.get(name=userrole)
+            user.groups.add(groupNew)
+        return redirect('userRoles')
+
+    
+
+    context = {'user': user, 'role':role}
+    return render(request, 'website/view_user_developer.html', context)
