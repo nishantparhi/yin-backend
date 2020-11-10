@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost, Catagory, Author, Comment
+from .models import Contact, BlogPost, Catagory, Author, Comment, Tag
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User
 
@@ -21,7 +21,8 @@ def index(request):
 
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
@@ -51,7 +52,8 @@ def blogauthor(request, username):
     # print(blogs)
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
@@ -114,11 +116,13 @@ def contactPage(request):
         contact.save()
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts,'popularCatagoriesDict': popularCatagoriesDict}
+    context = {'recentPosts': recentPosts, 'popularPosts': popularPosts,
+               'popularCatagoriesDict': popularCatagoriesDict}
     return render(request, 'website/page-contact.html', context)
 
 
@@ -145,7 +149,8 @@ def blog(request, slug):
     blogpost.save()
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
@@ -174,37 +179,44 @@ def blog(request, slug):
 @notDeveloper()
 def createPost(request):
     user = request.user
-    # print(request.POST)
     if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            # form.save()
-            post_item = form.save(commit=False)
-            post_item.user = request.user
-            # status
-            blogStatus = request.POST.get('status', None)
-            # print(request.POST, blogStatus)
-            if (blogStatus != None) and (blogStatus == 'ACTIVE'):
-                post_item.status = 'ACTIVE'
-            else:
-                post_item.status = 'PENDING'
-            post_item.save()
-            if post_item.status == 'ACTIVE':
-                return redirect(f'/news/{post_item.slug}')
-            else:
-                return redirect('dashboard')
-    else:
-        form = PostForm()
+        print(request.FILES)
+        print(request.FILES)
+        print(request.FILES)
+        blogpost = BlogPost.objects.create(
+            user=request.user,
+            blog_title=request.POST.get('blog_title'),
+            blog_content=request.POST.get('blog_content'),
+            status=request.POST.get('status'),
+            coverPic=request.FILES.get('myfile')
 
-        # if the user is core member or not
-        isCore = False
-        group = None
-        if request.user.groups.exists():
-            group = request.user.groups.all()[0].name
-        if group == 'core_content_writter':
-            isCore = True
 
-    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore})
+        )
+        for id in request.POST.get('selectedCat').split(','):
+            try:
+                test = int(id)
+                blogpost.catagory.add(id)
+            except:
+                pass
+        for id in request.POST.get('selectedTag').split(','):
+            try:
+                test = int(id)
+                blogpost.tags.add(id)
+            except:
+                pass
+        blogpost.save()
+
+    allCategories = Catagory.objects.all()
+    allTags = Tag.objects.all()
+    form = PostForm()
+    isCore = False
+    group = None
+    if request.user.groups.exists():
+        group = request.user.groups.all()[0].name
+    if group == 'core_content_writter':
+        isCore = True
+
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags})
 
 # Edit a post
 
@@ -316,11 +328,12 @@ def approvedBlogsDeveloper(request):
     }
     return render(request, 'website/approved_posts_developer.html', context)
 
+
 @login_required
 @onlyDeveloper()
 def contactFormDeveloper(request):
     contactInfos = Contact.objects.all().order_by('-date')
-    context = {'contactInfos':contactInfos}
+    context = {'contactInfos': contactInfos}
     return render(request, 'website/contact_form_developer.html', context)
 
 # Developer all post
@@ -399,22 +412,25 @@ def comment(request, id):
                       comment=request.POST.get('comment'))
     comment.save()
     return redirect('/news/'+str(currentBlog.slug))
-	
-	
+
+
 def blogCatagory(request, catagory):
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(tranding=True).order_by('-date')
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    context = {'recentPosts':recentPosts, 'popularPosts':popularPosts,'popularCatagoriesDict': popularCatagoriesDict}
+    context = {'recentPosts': recentPosts, 'popularPosts': popularPosts,
+               'popularCatagoriesDict': popularCatagoriesDict}
 
     try:
-        thisCatagory = Catagory.objects.get(text = catagory)
+        thisCatagory = Catagory.objects.get(text=catagory)
     except:
         return render(request, 'website/page-404.html', context)
-    blogs = BlogPost.objects.filter(catagory=thisCatagory).order_by('-pub_date')
+    blogs = BlogPost.objects.filter(
+        catagory=thisCatagory).order_by('-pub_date')
     context['catagory'] = thisCatagory
     context['blogs'] = blogs
     return render(request, 'website/blog-category.html', context)

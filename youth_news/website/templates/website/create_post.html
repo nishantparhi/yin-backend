@@ -2,7 +2,7 @@
 {% block title %}Create Post{% endblock %}
 {% block content %}
 <div class="container my-3">
-    <form action="" method="post">
+    <form action="" method="post" id="createPostForm" enctype="multipart/form-data">
         {% csrf_token %}
         {% if isCore %}
         <div class="form-group">
@@ -11,16 +11,85 @@
                 <option value="ACTIVE" selected>Active</option>
                 <option value="PENDING">Pending</option>
             </select>
+
         </div>
-        {% endif %}
+        {{form.media}}
+        {{form.as_p}}
+
+        <input type="file" name="myfile">
+        <!-- <button type="submit">Upload</button> -->
+        <!-- <div class="form-group">
+            <label for="status">Blog Title</label>
+
+            <input type="text" name="blogTitle" placeholder="Title">
+        </div>
         <div class="form-group">
-            {{form.media}}
-            {{form.as_p}}
+            <label for="blogContent">Blog content</label>
+            <textarea class="form-control" id="blogContent" name="blogContent" rows="3"></textarea>
+        </div> -->
+        <div class="form-group">
+            <label for="categories">Categories</label>
+
+            {% for i in allCategories %}
+            <div class="form-check">
+                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.id}}">
+                <label class="form-check-label" for="exampleCheck1">{{i.text}}</label>
+            </div>
+            {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </form>
+        <div class="form-group">
+            <label for="tags">Tags</label>
+
+            {% for i in allTags %}
+            <div class="form-check">
+                <input type="checkbox" name="checkboxTag" class="form-check-input" id="{{i.id}}">
+                <label class="form-check-label" for="exampleCheck1">{{i.text}}</label>
+            </div>
+            {% endfor %}
+        </div>
+
+</div>
+{% endif %}
+
+
+<button type="button" onclick="selectCheck()" class="btn btn-primary">Save</button>
+<input type="text" name="selectedCat" id="selectedCat" style="display: none;">
+<input type="text" name="selectedTag" id="selectedTag" style="display: none;">
+</form>
 </div>
 
+<script>
+    function selectCheck() {
+        form = document.getElementById('createPostForm');
+
+        var checkedList = []
+        const checkboxes = document.getElementsByName('checkboxCat');
+        for (var i = 0; i < checkboxes.length; i++) {
+
+            if (checkboxes[i].checked) {
+                checkedList.push(checkboxes[i].id);
+            }
+
+
+        }
+        checkedList = checkedList.join(",");
+        document.getElementById('selectedCat').value = checkedList;
+        var checkedListTag = []
+        const checkboxesTag = document.getElementsByName('checkboxTag');
+        for (var i = 0; i < checkboxesTag.length; i++) {
+
+            if (checkboxesTag[i].checked) {
+                checkedListTag.push(checkboxesTag[i].id);
+            }
+
+
+        }
+        checkedListTag = checkedListTag.join(",");
+        document.getElementById('selectedTag').value = checkedListTag;
+        form.submit();
+
+    }
+</script>
 <script>
     const inputs = document.querySelectorAll('input');
     inputs[1].classList += 'form-control';
