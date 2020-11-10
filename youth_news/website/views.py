@@ -434,3 +434,15 @@ def blogCatagory(request, catagory):
     context['catagory'] = thisCatagory
     context['blogs'] = blogs
     return render(request, 'website/blog-category.html', context)
+
+# User Roles
+@login_required
+@onlyDeveloper()
+def userRoles(request):
+    users = User.objects.all()
+    userRoleDict = {}
+    for user in users:
+        userRoleDict[user] = user.groups.all()[0]
+
+    context = {'userRoleDict': userRoleDict}
+    return render(request, 'website/user_roles_developer.html', context)

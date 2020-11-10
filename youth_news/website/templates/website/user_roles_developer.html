@@ -1,0 +1,28 @@
+{% extends 'website/post_base.html' %}
+{% block title %}All Approved Posts{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <h3>Approved Blogs</h3>
+    <table class="table mt-3 responsive-table ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">UserName</th>
+                <th scope="col">Current Role</th>
+                <th scope="col">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user, userRole in userRoleDict.items %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{user.username}}</td>
+                <td>{{userRole}}</td>
+                <td><a href="#"
+                        class="btn btn-outline-info">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

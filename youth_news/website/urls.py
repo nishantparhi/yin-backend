@@ -65,4 +65,5 @@ urlpatterns = [
          views.deletePostDeveloper, name='delete_post_developer'),
     path('preview/<slug:slug>/', views.previewPost, name="preview_post"),
     path('comment/<int:id>/', views.comment, name="comment"),
+    path('user_roles/', views.userRoles, name="userRoles"),
 ]
