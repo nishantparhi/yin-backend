@@ -16,7 +16,7 @@
         {{form.media}}
         {{form.as_p}}
 
-        <input type="file" name="myfile">
+        <input type="file" name="myfile" value="{{item.coverPic}}">
         <!-- <button type="submit">Upload</button> -->
         <!-- <div class="form-group">
             <label for="status">Blog Title</label>
@@ -32,8 +32,13 @@
 
             {% for i in allCategories %}
             <div class="form-check">
-                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.id}}">
-                <label class="form-check-label" for="exampleCheck1">{{i.text}}</label>
+            {% if i.1 %}
+                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.0.id}}" checked>
+                {% else %}
+                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.0.id}}">
+                
+                {% endif %}
+                <label class="form-check-label" for="exampleCheck1">{{i.0.text}}</label>
             </div>
             {% endfor %}
         </div>
@@ -42,8 +47,13 @@
 
             {% for i in allTags %}
             <div class="form-check">
-                <input type="checkbox" name="checkboxTag" class="form-check-input" id="{{i.id}}">
-                <label class="form-check-label" for="exampleCheck1">{{i.text}}</label>
+            {% if i.1 %}
+                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.0.id}}" checked>
+                {% else %}
+                <input type="checkbox" name="checkboxCat" class="form-check-input" id="{{i.0.id}}">
+                
+                {% endif %}
+                <label class="form-check-label" for="exampleCheck1">{{i.0.text}}</label>
             </div>
             {% endfor %}
         </div>
