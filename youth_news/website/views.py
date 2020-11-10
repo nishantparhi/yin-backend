@@ -188,7 +188,7 @@ def createPost(request):
             blog_title=request.POST.get('blog_title'),
             blog_content=request.POST.get('blog_content'),
             status=request.POST.get('status'),
-            coverPic=request.FILES.get('myfile')
+            # coverPic=request.FILES.get('myfile')
 
 
         )
@@ -232,7 +232,7 @@ def createPost(request):
     if group == 'core_content_writter':
         isCore = True
 
-    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags,'item':item})
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags,'item':None})
 
 # Edit a post
 
@@ -253,9 +253,9 @@ def editPost(request, slug=None):
         print(request.FILES.get('myfile'))
 
 
-        item.blog_title=request.POST.get('blog_title'),
-        item.blog_content=request.POST.get('blog_content'),
-        item.status=request.POST.get('status'),
+        item.blog_title=request.POST.get('blog_title')
+        item.blog_content=request.POST.get('blog_content')
+        item.status=request.POST.get('status')
         if(request.FILES.get('myfile')!=None):
             item.coverPic=request.FILES.get('myfile')
 
