@@ -188,7 +188,7 @@ def createPost(request):
             blog_title=request.POST.get('blog_title'),
             blog_content=request.POST.get('blog_content'),
             status=request.POST.get('status'),
-            # coverPic=request.FILES.get('myfile')
+            coverPic=request.FILES.get('coverPic')
 
 
         )
@@ -205,25 +205,26 @@ def createPost(request):
             except:
                 pass
         blogpost.save()
+        return redirect('dashboard')
 
-    selectedCats=[]
-    selectedtags=[]
+    selectedCats = []
+    selectedtags = []
     allCategories = Catagory.objects.all()
     allTags = Tag.objects.all()
-    tempCat=[]
+    tempCat = []
     for i in allCategories:
         if i in selectedCats:
-            tempCat.append([i,True])
+            tempCat.append([i, True])
         else:
-            tempCat.append([i,False])
-    allCategories=tempCat
-    tempCat=[]
+            tempCat.append([i, False])
+    allCategories = tempCat
+    tempCat = []
     for i in allTags:
         if i in selectedtags:
-            tempCat.append([i,True])
+            tempCat.append([i, True])
         else:
-            tempCat.append([i,False])
-    allTags=tempCat
+            tempCat.append([i, False])
+    allTags = tempCat
     form = PostForm()
     isCore = False
     group = None
@@ -232,7 +233,7 @@ def createPost(request):
     if group == 'core_content_writter':
         isCore = True
 
-    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags,'item':None})
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags, 'item': None})
 
 # Edit a post
 
@@ -247,17 +248,16 @@ def editPost(request, slug=None):
 
     form = PostForm(request.POST or None, instance=item)
     if request.method == "POST":
-        print(request.POST.get('blog_title'))
-        print(request.POST.get('blog_title'))
-        print(request.POST.get('blog_title'))
-        print(request.FILES.get('myfile'))
+        # print(request.POST.get('blog_title'))
+        # print(request.POST.get('blog_title'))
+        # print(request.POST.get('blog_title'))
+        # print(request.FILES.get('coverPic'))
 
-
-        item.blog_title=request.POST.get('blog_title')
-        item.blog_content=request.POST.get('blog_content')
-        item.status=request.POST.get('status')
-        if(request.FILES.get('myfile')!=None):
-            item.coverPic=request.FILES.get('myfile')
+        item.blog_title = request.POST.get('blog_title')
+        item.blog_content = request.POST.get('blog_content')
+        item.status = request.POST.get('status')
+        if(request.FILES.get('coverPic') != None):
+            item.coverPic = request.FILES.get('coverPic')
 
         for i in item.catagory.all():
             item.catagory.remove(i.id)
@@ -281,24 +281,24 @@ def editPost(request, slug=None):
         return redirect('dashboard')
 
     # if the user is core member or not
-    selectedCats=(item.catagory.all())
-    selectedtags=(item.tags.all())
+    selectedCats = (item.catagory.all())
+    selectedtags = (item.tags.all())
     allCategories = Catagory.objects.all()
     allTags = Tag.objects.all()
-    tempCat=[]
+    tempCat = []
     for i in allCategories:
         if i in selectedCats:
-            tempCat.append([i,True])
+            tempCat.append([i, True])
         else:
-            tempCat.append([i,False])
-    allCategories=tempCat
-    tempCat=[]
+            tempCat.append([i, False])
+    allCategories = tempCat
+    tempCat = []
     for i in allTags:
         if i in selectedtags:
-            tempCat.append([i,True])
+            tempCat.append([i, True])
         else:
-            tempCat.append([i,False])
-    allTags=tempCat
+            tempCat.append([i, False])
+    allTags = tempCat
 
     isCore = False
     group = None
@@ -307,7 +307,7 @@ def editPost(request, slug=None):
     if group == 'core_content_writter':
         isCore = True
     # print(item.coverPic)
-    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore,'allCategories':allCategories,'allTags':allTags,'item':item})
+    return render(request, 'website/create_post.html', {'form': form, 'isCore': isCore, 'allCategories': allCategories, 'allTags': allTags, 'item': item})
 
 # Delete a  Blog
 

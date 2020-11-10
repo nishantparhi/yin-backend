@@ -4,6 +4,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import BlogPost
 
+
 class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=True)
@@ -19,7 +20,7 @@ class CreateUserForm(UserCreationForm):
             'password1',
             'password2'
         ]
-    
+
     def save(self, commit=True):
         user = super(CreateUserForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
@@ -31,7 +32,9 @@ class CreateUserForm(UserCreationForm):
         return user
 
 # Blog model form
+
+
 class PostForm(ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['blog_title','blog_content']
+        fields = ['blog_title', 'blog_content', 'coverPic']
