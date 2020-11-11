@@ -1,38 +1,81 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>Login</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+		
+		<!-- Design fonts -->
+		<link href="{% static 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700' %}" rel="stylesheet"> 
+		<link href="{% static 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900' %}" rel="stylesheet"> 
+
+		<!-- Bootstrap core CSS -->
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+		<!-- FontAwesome Icons core CSS -->
+		<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="{% static 'style.css'%}" rel="stylesheet">
+
+		<!-- Responsive styles for this template -->
+		<link href="{% static 'css/responsive.css'%}" rel="stylesheet">
+
+		<!-- Colors for this template -->
+		<link href="{% static 'css/colors.css' %}" rel="stylesheet">
 		
 		<!-- MATERIAL DESIGN ICONIC FONT -->
-		<link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
 
 		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="{% static 'css/style.css'%}">
 	</head>
 
-	<body>
 
-		<div class="wrapper" style="background-image: url(images/login.jpg);">
-			<div class="inner log">
-				
-				<form action="">
-					<h3>Login</h3>
-					<div class="form-wrapper">
-						<input type="text" placeholder="Email Address" class="form-control">
-						<i class="zmdi zmdi-email"></i>
-					</div>
-					<div class="form-wrapper">
-						<input type="password" placeholder="Password" class="form-control">
-						<i class="zmdi zmdi-lock"></i>
-					</div>
-					<button>Login
-                    </button>
-                    <div class="link-text">New here? <a href="signup.html">signup</a></div>
-				</form>
+	<body>
+		{% block content %}
+		<div>
+			<a href="{% url 'index' %}" class="btn">
+				<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-left align-middle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+				</svg>back
+			</a>
+		</div>
+		<div class="card">
+			<div class="row">
+			<div class="col-md-9">
+				<img src="{% static 'images/login.jpg' %}" alt="" height="500px">
+			</div>
+			<form action="" class="col-md-3">
+		
+				<div class="text-center">
+					<a href="index.html" class="navbar-brand">
+						<img src="{% static 'images/logo.png' %}" alt="logo" height="50px">
+					</a>
+				</div>
+				<div class="form-wrapper">
+					<input type="text" placeholder="Email Address" class="form-control" required>
+					<i class="zmdi zmdi-email align-middle"></i>
+				</div>
+				<div class="form-wrapper">
+					<input type="password" placeholder="Password" class="form-control" required>
+					<i class="zmdi zmdi-lock align-middle"></i>
+				</div>
+				<button>Login
+				</button>
+				<div class="link-text">New here? <a href="signup.html">signup</a></div>
+			</form>
 			</div>
 		</div>
+		
+		
+		
+		
+		
+		{% endblock %}
 		
 	</body>
 </html>
