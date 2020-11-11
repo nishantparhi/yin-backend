@@ -1,0 +1,16 @@
+{% extends 'website/post_base.html' %}
+{% block title %}Tags{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <h1>Add Tags</h1>
+
+    <form action="" method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="userrole">Add a Tag :</label>
+            <input type="text" class="form-control" placeholder="Enter tag name..." name="tag" required>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

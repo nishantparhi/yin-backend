@@ -1,0 +1,30 @@
+{% extends 'website/post_base.html' %}
+{% block title %}My Profile - {{user.username}}{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <div class="d-flex justify-content-between">
+        <h1>{{user.username}}</h1>
+        <a href="{% url 'blogauthor' user.username %}" target="_blank" class="btn btn-info">View Profile</a>
+    </div>
+    <p class="text-muted">User Role - {{role}}</p>
+    <div class="my-4">
+        Current Profile Pic : <img src="{{user.author.profile_pic.url}}" alt="" width="200px" height="200px" class="img-fluid">
+    </div>
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form-group">
+            <label for="profilePic">Change Profile Picture</label>
+            <input type="file" name="profilePic" id="profilePic" class="form-control">
+        </div>
+        {{form.as_p}}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    
+</div>
+<script>
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.classList += 'form-control';
+    });
+    document.querySelector('textarea').classList += 'form-control'
+</script>
+{% endblock %}

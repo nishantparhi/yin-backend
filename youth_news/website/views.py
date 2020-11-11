@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateUserForm, PostForm
+from .forms import CreateUserForm, PostForm, AuthorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost, Catagory, Author, Comment, Tag
@@ -524,3 +524,65 @@ def viewUser(request, username):
 
     context = {'user': user, 'role':role}
     return render(request, 'website/view_user_developer.html', context)
+
+# Add Tag
+@login_required
+@onlyDeveloper()
+def addTag(request):
+    if request.method == 'POST':
+        tag = request.POST.get('tag', None)
+        if(not tag or tag.strip()==''):
+            return redirect('addTag')
+        Tag.objects.create(text=tag.strip())
+    return render(request, 'website/add_Tag.html')
+
+# Add Tag
+@login_required
+@onlyDeveloper()
+def addCatagory(request):
+    if request.method == 'POST':
+        catagory = request.POST.get('catagory', None)
+        trandingVal = request.POST.get('tranding', False)
+        tranding = False
+        if (trandingVal == 'on'):
+            tranding = True
+        if(not catagory or catagory.strip()==''):
+            return redirect('addCatagory')
+        print(catagory, tranding)
+        Catagory.objects.create(text=catagory.strip(), tranding=tranding)
+    return render(request, 'website/add_Catagory.html')
+
+# Add Tag
+@login_required
+@onlyDeveloper()
+def changeTranding(request, slug):
+    try:
+        blog = BlogPost.objects.get(slug=slug)
+    except:    
+        return redirect('approved_blogs_developer')
+    blog.isTranding = not blog.isTranding
+    blog.save()
+    return redirect('approved_blogs_developer')
+
+@login_required
+@notDeveloper()
+def myProfile(request):
+    curr_author = Author.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=curr_author)
+        if form.is_valid():
+            form.save()
+        # save the pic
+        if(request.FILES.get('profilePic') != None):
+            curr_author.profile_pic = request.FILES.get('profilePic')
+            try:
+                curr_author.save()
+            except:
+                pass
+        return redirect('myProfile')
+
+    role = request.user.groups.all()[0]
+    form = AuthorForm(instance=curr_author)
+    context = {'role': role, 'form': form}
+
+    return render(request, 'website/my-profile.html', context)
