@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Contact, BlogPost, Catagory, Author, Comment, Tag
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User, Group
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -49,6 +50,15 @@ def blogauthor(request, username):
     # print(user)
     blogs = BlogPost.objects.filter(user=user)
     author = Author.objects.get(user=user)
+    # Paginatior
+    p = Paginator(blogs, 5)
+    page_num = request.GET.get('page', 1)
+    try:
+        page = p.page(page_num)
+    except:
+        page = p.page(1)
+
+
     # print(blogs)
     recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
     popularPosts = BlogPost.objects.all().order_by('-views')[:3]
@@ -58,7 +68,8 @@ def blogauthor(request, username):
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     context = {
-        'blogs': blogs,
+        'blogs': page,
+        'noOfPages': range(p.num_pages),
         'author': author,
         'recentPosts': recentPosts,
         'popularPosts': popularPosts,
@@ -484,8 +495,17 @@ def blogCatagory(request, catagory):
         return render(request, 'website/page-404.html', context)
     blogs = BlogPost.objects.filter(
         catagory=thisCatagory).order_by('-pub_date')
+    # Paginatior
+    p = Paginator(blogs, 5)
+    page_num = request.GET.get('page', 1)
+    try:
+        page = p.page(page_num)
+    except:
+        page = p.page(1)
+
     context['catagory'] = thisCatagory
-    context['blogs'] = blogs
+    context['blogs'] = page
+    context['noOfPages'] = range(p.num_pages)
     return render(request, 'website/blog-category.html', context)
 
 # User Roles

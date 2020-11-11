@@ -60,7 +60,7 @@
                                 <a href="{% url 'blog' recentPosts.1.slug %}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 last-item justify-content-between">
-                                        <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;>
+                                        <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
                                         <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
                                         <small>{{recentPosts.1.pub_date }}</small>
                                     </div>
@@ -154,12 +154,22 @@
                     <div class="col-md-12">
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-start">
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                {% if blogs.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
+                                    <a class="page-link" href="{% url 'blog-catagory' catagory %}?page={{blogs.previous_page_number}}">Previous</a>
                                 </li>
+                                {% endif %}
+                                {% for page in noOfPages %}
+                                <li class="page-item"><a class="page-link" href="{% url 'blog-catagory' catagory %}?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                                {% endfor %}
+                                {% if blogs.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'blogauthor' blogs.0.user %}?page={{blogs.next_page_number}}">Next</a>
+                                </li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div><!-- end col -->
