@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 
 def index(request):
     trandingBlogs = BlogPost.objects.filter(
-        isTranding=True).order_by('-pub_date')[:5]
+        isTranding=True, status="ACTIVE").order_by('-pub_date')[:5]
     trandingCatagories = Catagory.objects.filter(
         tranding=True).order_by('-date')[:6]
 
@@ -39,7 +39,7 @@ def blogauthor(request, username):
     try:
         user = User.objects.get(username=username)
         # print(user)
-        blogs = BlogPost.objects.filter(user=user).order_by('-pub_date')
+        blogs = BlogPost.objects.filter(user=user, status="ACTIVE").order_by('-pub_date')
         author = Author.objects.get(user=user)
     except:
         return render(request, 'website/page-404.html', returnFooterDependencies())
@@ -105,13 +105,6 @@ def contactPage(request):
         contact = Contact(name=name, email=email, phone=phone,
                           subject=subject, message=message)
         contact.save()
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')
-    popularCatagoriesDict = {}
-    for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     context = returnFooterDependencies()
     return render(request, 'website/page-contact.html', context)
 
@@ -447,13 +440,13 @@ def comment(request, id):
 
 
 def blogCatagory(request, catagory):
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    recentPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-views')[:3]
     popularCatagories = Catagory.objects.filter(
         tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i,status="ACTIVE"))
     context = returnFooterDependencies()
 
     try:
@@ -461,7 +454,7 @@ def blogCatagory(request, catagory):
     except:
         return render(request, 'website/page-404.html', context)
     blogs = BlogPost.objects.filter(
-        catagory=thisCatagory).order_by('-pub_date')
+        catagory=thisCatagory,status="ACTIVE").order_by('-pub_date')
     # Paginatior
     p = Paginator(blogs, 5)
     page_num = request.GET.get('page', 1)
@@ -575,13 +568,13 @@ def myProfile(request):
     return render(request, 'website/my-profile.html', context)
 
 def returnFooterDependencies():
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    recentPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-views')[:3]
     popularCatagories = Catagory.objects.filter(
         tranding=True).order_by('-date')
     popularCatagoriesDict = {}
     for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i, status="ACTIVE"))
     # print(trandingCatagoriesPosts)
     context = {'recentPosts': recentPosts,
                'popularPosts': popularPosts,
