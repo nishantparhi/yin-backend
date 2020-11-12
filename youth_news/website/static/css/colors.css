@@ -31,8 +31,8 @@ a:focus,
 .search-form .btn:hover,
 .search-form .btn:focus,
 .search-form .btn {
-    color: #ffffff !important;
-    background-color: #3197d6 !important;
+    color: #333 !important;
+    background-color: #fff !important;
 }
 
 .tag-cloud-single span,
@@ -41,16 +41,16 @@ a:focus,
 .sitemap-wrapper .year,
 .btn:focus,
 .navbar-inverse .navbar-toggler {
-    color: #ffffff !important;
-    background-color: #3197d6;
+    color: #333 !important;
+    background-color: #fff;
 }
 
 .blockquote {
-    border-left-color: #3197d6;
+    border-left-color: #fff;
 }
 
 .footer .widget-title {
-    border-color: #3197d6;
+    border-color: #fff;
 }
 
 

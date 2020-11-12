@@ -22,7 +22,6 @@ input, textarea, select, button {
 
 p, h1, h2, h3, h4, h5, h6, ul {
   margin: 0; }
-
 img {
   max-width: 100%; }
 
@@ -35,14 +34,26 @@ a:hover {
 
 :focus {
   outline: none; }
-
+nav .navbar {
+  margin: 0px;
+}
 .wrapper {
   min-height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center; }
-
+  align-items: center;
+}
+.card {
+  width: 90%;
+  margin: auto;
+  border: 0px;
+	box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.15);
+}
+.row {
+  width: 100%;
+  padding: 20px;
+}
 .inner {
   padding: 20px;
   background: #fff;
@@ -52,10 +63,11 @@ a:hover {
   border-radius: 10px;
 	box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.15);
  }
-  .inner .image-holder {
-    width: 50%; }
+ .inner .left_img {
+   width: 70%;
+ }
   .inner form {
-    width: 50%;
+    width: 30%;
     padding-top: 36px;
     padding-left: 45px;
     padding-right: 45px; }
@@ -91,7 +103,7 @@ a:hover {
   display: block;
   width: 100%;
   height: 30px;
-  padding: 0;
+  padding: 5px;
   margin-bottom: 25px; }
   .form-control::-webkit-input-placeholder {
     font-size: 13px;
@@ -141,6 +153,22 @@ button:hover {
   color: #333;
   background-color: #fff;
 	box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.15); 
+}
+.btn {
+  border: solid 1.5px #333;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0.2rem 0.4rem;
+  font-size: small;
+  font-weight: 300;
+  margin: 1rem;
+}
+.btn:hover {
+  border: solid 1.5px #fff;
+  background-color: #fff;
+  color: #fff;
 }
 .link-text {
   text-align: center;
