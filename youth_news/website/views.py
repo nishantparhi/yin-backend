@@ -20,19 +20,9 @@ def index(request):
         trandingCatagoriesPosts.append(
             [i, BlogPost.objects.filter(catagory=i).filter(status="ACTIVE").order_by('-pub_date')])
 
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')
-    popularCatagoriesDict = {}
-    for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    # print(trandingCatagoriesPosts)
-    context = {'trandingPosts': trandingBlogs,
-               'trendingPostContent':  trandingCatagoriesPosts,
-               'recentPosts': recentPosts,
-               'popularPosts': popularPosts,
-               'popularCatagoriesDict': popularCatagoriesDict}
+    context = returnFooterDependencies()
+    context['trandingPosts'] = trandingBlogs
+    context['trendingPostContent'] = trandingCatagoriesPosts
     return render(request, 'website/index.html', context)
 
 
@@ -46,10 +36,13 @@ def index(request):
 
 
 def blogauthor(request, username):
-    user = User.objects.get(username=username)
-    # print(user)
-    blogs = BlogPost.objects.filter(user=user)
-    author = Author.objects.get(user=user)
+    try:
+        user = User.objects.get(username=username)
+        # print(user)
+        blogs = BlogPost.objects.filter(user=user).order_by('-pub_date')
+        author = Author.objects.get(user=user)
+    except:
+        return render(request, 'website/page-404.html', returnFooterDependencies())
     # Paginatior
     p = Paginator(blogs, 5)
     page_num = request.GET.get('page', 1)
@@ -58,23 +51,10 @@ def blogauthor(request, username):
     except:
         page = p.page(1)
 
-
-    # print(blogs)
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')
-    popularCatagoriesDict = {}
-    for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    context = {
-        'blogs': page,
-        'noOfPages': range(p.num_pages),
-        'author': author,
-        'recentPosts': recentPosts,
-        'popularPosts': popularPosts,
-        'popularCatagoriesDict': popularCatagoriesDict
-    }
+    context = returnFooterDependencies()
+    context['blogs'] = page
+    context['noOfPages'] = range(p.num_pages)
+    context['author'] = author
     return render(request, 'website/blog-author.html', context)
 
 
@@ -132,8 +112,7 @@ def contactPage(request):
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    context = {'recentPosts': recentPosts, 'popularPosts': popularPosts,
-               'popularCatagoriesDict': popularCatagoriesDict}
+    context = returnFooterDependencies()
     return render(request, 'website/page-contact.html', context)
 
 
@@ -149,22 +128,15 @@ def blog(request, slug):
         blogpost = BlogPost.objects.get(slug=slug)
         user = blogpost.user
     except:
-        return render(request, 'website/page-404.html')
+        return render(request, 'website/page-404.html', returnFooterDependencies())
 
     # if blog is not active then don't show anyone
     if blogpost.status != 'ACTIVE':
-        return render(request, 'website/page-404.html')
+        return render(request, 'website/page-404.html', returnFooterDependencies())
 
     # add view count
     blogpost.views = blogpost.views + 1
     blogpost.save()
-    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
-    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
-    popularCatagories = Catagory.objects.filter(
-        tranding=True).order_by('-date')
-    popularCatagoriesDict = {}
-    for i in popularCatagories:
-        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
     author = Author.objects.get(user=user)
     realatedPost = BlogPost.objects.filter(
         catagory=blogpost.catagory.first()).filter(status="ACTIVE").order_by('-pub_date')[:2]
@@ -172,16 +144,12 @@ def blog(request, slug):
         user=blogpost.user).filter(status="ACTIVE").exclude(id=blogpost.id).order_by('-pub_date')[:2]
     print(prevNextPost[0].coverPic)
     comments = Comment.objects.filter(blog=blogpost)
-    context = {
-        'blogpost': blogpost,
-        'author': author,
-        'recentPosts': recentPosts,
-        'popularPosts': popularPosts,
-        'realatedPost': realatedPost,
-        'prevNextPost': prevNextPost,
-        'comments': comments,
-        'popularCatagoriesDict': popularCatagoriesDict
-    }
+    context = returnFooterDependencies()
+    context['blogpost'] = blogpost
+    context['author'] = author
+    context['realatedPost'] = realatedPost
+    context['prevNextPost'] = prevNextPost
+    context['comments'] = comments
     return render(request, 'website/single.html', context)
 
 
@@ -255,7 +223,7 @@ def editPost(request, slug=None):
     item = get_object_or_404(BlogPost, slug=slug)
     # check for auth
     if item.user != request.user:
-        return render(request, 'website/page-404.html')
+        return render(request, 'website/page-404.html',returnFooterDependencies())
 
     form = PostForm(request.POST or None, instance=item)
     if request.method == "POST":
@@ -486,8 +454,7 @@ def blogCatagory(request, catagory):
     popularCatagoriesDict = {}
     for i in popularCatagories:
         popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
-    context = {'recentPosts': recentPosts, 'popularPosts': popularPosts,
-               'popularCatagoriesDict': popularCatagoriesDict}
+    context = returnFooterDependencies()
 
     try:
         thisCatagory = Catagory.objects.get(text=catagory)
@@ -606,3 +573,18 @@ def myProfile(request):
     context = {'role': role, 'form': form}
 
     return render(request, 'website/my-profile.html', context)
+
+def returnFooterDependencies():
+    recentPosts = BlogPost.objects.all().order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.all().order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(
+        tranding=True).order_by('-date')
+    popularCatagoriesDict = {}
+    for i in popularCatagories:
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i))
+    # print(trandingCatagoriesPosts)
+    context = {'recentPosts': recentPosts,
+               'popularPosts': popularPosts,
+               'popularCatagoriesDict': popularCatagoriesDict
+               }
+    return context

@@ -229,7 +229,7 @@
                             {% autoescape off %}
                             {{i.blog_content}}
                             {% endautoescape %}
-                            <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.2.0}}</a></small>
+                            <small><a href="{% url 'blog-catagory' trendingPostContent.2.0 %}" title="">{{ trendingPostContent.2.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
                             <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
@@ -263,7 +263,7 @@
                             {% autoescape off %}
                             {{i.blog_content}}
                             {% endautoescape %}
-                            <small><a href="{% url 'blog' i.slug%}" title="">{{ trendingPostContent.3.0}}</a></small>
+                            <small><a href="{% url 'blog-catagory' trendingPostContent.3.0 %}" title="">{{ trendingPostContent.3.0}}</a></small>
                             <small><a href="{% url 'blog' i.slug%}" title="">{{i.pub_date}}</a></small>
                             <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
                         </div><!-- end meta -->
