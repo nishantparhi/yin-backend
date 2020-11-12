@@ -222,6 +222,9 @@ button:hover {
     padding-left: 30px;
     padding-right: 30px; } }
 @media (max-width: 767px) {
+  .ad_img {
+    display: none;
+  }
   .inner {
     display: block; }
     .inner .image-holder {
