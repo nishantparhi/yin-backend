@@ -182,16 +182,27 @@ def createPost(request):
     if request.method == "POST":
         # print(request.FILES)
         # print(request.FILES)
-        # print(request.FILES)
-        blogpost = BlogPost.objects.create(
-            user=request.user,
-            blog_title=request.POST.get('blog_title'),
-            blog_content=request.POST.get('blog_content'),
-            status=request.POST.get('status'),
-            coverPic=request.FILES.get('coverPic')
+        if(request.FILES.get('coverPic') != None):
+            blogpost = BlogPost.objects.create(
+                user=request.user,
+                blog_title=request.POST.get('blog_title'),
+                blog_content=request.POST.get('blog_content'),
+                status=request.POST.get('status'),
+                coverPic=request.FILES.get('coverPic')
 
 
-        )
+            )
+        else:
+            blogpost = BlogPost.objects.create(
+                user=request.user,
+                blog_title=request.POST.get('blog_title'),
+                blog_content=request.POST.get('blog_content'),
+                status=request.POST.get('status'),
+                # coverPic=request.FILES.get('coverPic')
+
+
+            )
+
         for id in request.POST.get('selectedCat').split(','):
             try:
                 test = int(id)
