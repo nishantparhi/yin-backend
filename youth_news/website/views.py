@@ -7,8 +7,6 @@ from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator
 
-def login(request):
-    return render(request, 'website/login.html')
 
 def index(request):
     trandingBlogs = BlogPost.objects.filter(
