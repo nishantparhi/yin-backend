@@ -10,7 +10,8 @@
                             <a href="{% url 'blog' recentPosts.0.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 justify-content-between">
-                                    <img src="{{recentPosts.0.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 72px !important;height: 72px !important;">
+                                    <img src="{{recentPosts.0.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 72px !important;height: 72px !important;">
                                     <h5 class="mb-1">{{recentPosts.0.blog_title}}</h5>
                                     <small>{{recentPosts.0.pub_date }}</small>
                                 </div>
@@ -19,7 +20,8 @@
                             <a href="{% url 'blog' recentPosts.1.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 justify-content-between">
-                                    <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 72px !important;height: 72px !important;">
+                                    <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 72px !important;height: 72px !important;">
                                     <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
                                     <small>{{recentPosts.1.pub_date }}</small>
                                 </div>
@@ -28,7 +30,8 @@
                             <a href="{% url 'blog' recentPosts.2.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 last-item justify-content-between">
-                                    <img src="{{recentPosts.2.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 72px !important;height: 72px !important;">
+                                    <img src="{{recentPosts.2.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 72px !important;height: 72px !important;">
                                     <h5 class="mb-1">{{recentPosts.2.blog_title}}</h5>
                                     <small>{{recentPosts.2.pub_date }}</small>
                                 </div>
@@ -46,7 +49,8 @@
                             <a href="{% url 'blog' popularPosts.0.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 justify-content-between">
-                                    <img src="{{popularPosts.0.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 80px !important;height: 80px !important;">
+                                    <img src="{{popularPosts.0.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 80px !important;height: 80px !important;">
                                     <h5 class="mb-1">{{popularPosts.0.blog_title}}</h5>
                                     <span class="rating">
                                         <i class="fa fa-star"></i>
@@ -61,7 +65,8 @@
                             <a href="{% url 'blog' popularPosts.1.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 justify-content-between">
-                                    <img src="{{popularPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 80px !important;height: 80px !important;">
+                                    <img src="{{popularPosts.1.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 80px !important;height: 80px !important;">
                                     <h5 class="mb-1">{{popularPosts.1.blog_title}}</h5>
                                     <span class="rating">
                                         <i class="fa fa-star"></i>
@@ -76,7 +81,8 @@
                             <a href="{% url 'blog' popularPosts.2.slug %}"
                                 class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="w-100 last-item justify-content-between">
-                                    <img src="{{popularPosts.2.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 80px !important;height: 80px !important;">
+                                    <img src="{{popularPosts.2.coverPic.url}}" alt="" class="img-fluid float-left"
+                                        style="width: 80px !important;height: 80px !important;">
                                     <h5 class="mb-1">{{popularPosts.2.blog_title}}</h5>
                                     <span class="rating">
                                         <i class="fa fa-star"></i>
@@ -130,8 +136,10 @@
                         <hr class="invis">
 
                         <div class="newsletter-widget text-center">
-                            <form class="form-inline">
-                                <input type="text" class="form-control" placeholder="Enter your email address">
+                            <form class="form-inline" action="/newsletter" method="POST">
+                                {% csrf_token %}
+                                <input type="text" class="form-control" placeholder="Enter your email address"
+                                    name="email">
                                 <button type="submit" class="btn btn-primary">Subscribe <i
                                         class="fa fa-envelope-open-o"></i></button>
                             </form>

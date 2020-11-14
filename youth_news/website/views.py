@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateUserForm, PostForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Contact, BlogPost, Catagory, Author, Comment, Tag
+from .models import *
 from .decorators import unauthentiated_user, notDeveloper, onlyDeveloper
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 
 def index(request):
@@ -498,3 +499,24 @@ def blogCatagory(request, catagory):
     context['catagory'] = thisCatagory
     context['blogs'] = blogs
     return render(request, 'website/blog-category.html', context)
+
+
+def newsLetterInput(request):
+    if request.method == "POST":
+        newsLetter = NewsLetter(email=request.POST.get('email'))
+        newsLetter.save()
+
+    return redirect('/')
+
+
+def sendNewsLetter():
+    emails = NewsLetter.objects.all()
+    emails = [i.email for i in emails]
+    print(emails)
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'from@example.com',
+        emails,
+        fail_silently=False,
+    )
