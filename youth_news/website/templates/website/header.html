@@ -61,6 +61,17 @@
                     {% if user.is_authenticated %}
                     <div class="topsearch text-right">
                         <a href="{% url 'dashboard' %}">Welcome, {{user.username}}</a>
+                        <!-- <li class=" dropdown">
+                            <a class=" dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Welcome, {{user.username}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{% url 'logout' %}"><i class="fa fa-sign-in mr-1 text-success"></i>Logout</a>
+                            </div>
+                        </li> -->
                     </div><!-- end search -->
                     {% else %}
                     <div class="topsearch text-right">

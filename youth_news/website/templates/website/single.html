@@ -14,7 +14,7 @@
                                     href="{% url 'blog' blogpost.slug %}">{{blogpost.blog_title}}</a></li>
                         </ol>
 
-                        <span class="color-aqua"><a href="blog-category-01.html"
+                        <span class="color-aqua"><a href="{% url 'blog-catagory' blogpost.catagory.all.0 %}"
                                 title="">{{blogpost.catagory.all.0}}</a></span>
 
                         <h3>{{blogpost.blog_title}}</h3>
