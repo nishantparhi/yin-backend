@@ -67,5 +67,14 @@ urlpatterns = [
          views.deletePostDeveloper, name='delete_post_developer'),
     path('preview/<slug:slug>/', views.previewPost, name="preview_post"),
     path('comment/<int:id>/', views.comment, name="comment"),
-    path('newsletter', views.newsLetterInput, name="newsLetterInput")
+    path('newsletter', views.newsLetterInput, name="newsLetterInput"),
+    path('user_roles/', views.userRoles, name="userRoles"),
+    path('view-user/<str:username>/', views.viewUser, name="viewUser"),
+    path('add-tag/', views.addTag, name="addTag"),
+    path('add-catagory/', views.addCatagory, name="addCatagory"),
+    path('change-tranding/<slug:slug>/',
+         views.changeTranding, name="changeTranding"),
+
+
+    path('my-profile/', views.myProfile, name="myProfile"),
 ]

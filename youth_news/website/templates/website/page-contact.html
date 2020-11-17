@@ -9,9 +9,8 @@
             </div><!-- end col -->
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item active"><a href="#">Contact</a></li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="">Contact</a></li>
                 </ol>
             </div><!-- end col -->
         </div><!-- end row -->
@@ -79,33 +78,30 @@
                         <h2 class="widget-title">Recent Posts</h2>
                         <div class="blog-list-widget">
                             <div class="list-group">
-                                <a href="single.html"
+                                <a href="{% url 'blog' recentPosts.0.slug %}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
-                                        <img src="{% static 'upload/blog_square_01.jpg' %}" alt=""
-                                            class="img-fluid float-left">
-                                        <h5 class="mb-1">5 Beautiful buildings you need to before dying</h5>
-                                        <small>12 Jan, 2016</small>
+                                        <img src="{{recentPosts.0.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                        <h5 class="mb-1">{{recentPosts.0.blog_title}}</h5>
+                                        <small>{{recentPosts.0.pub_date }}</small>
                                     </div>
                                 </a>
 
-                                <a href="single.html"
+                                <a href="{% url 'blog' recentPosts.1.slug %}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
-                                        <img src="{% static 'upload/blog_square_02.jpg' %}" alt=""
-                                            class="img-fluid float-left">
-                                        <h5 class="mb-1">Let's make an introduction for creative life</h5>
-                                        <small>11 Jan, 2016</small>
+                                        <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                        <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
+                                        <small>{{recentPosts.1.pub_date }}</small>
                                     </div>
                                 </a>
 
-                                <a href="single.html"
+                                <a href="{% url 'blog' recentPosts.1.slug %}"
                                     class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 last-item justify-content-between">
-                                        <img src="{% static 'upload/blog_square_03.jpg' %}" alt=""
-                                            class="img-fluid float-left">
-                                        <h5 class="mb-1">Did you see the most beautiful sea in the world?</h5>
-                                        <small>07 Jan, 2016</small>
+                                        <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                        <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
+                                        <small>{{recentPosts.1.pub_date }}</small>
                                     </div>
                                 </a>
                             </div>
@@ -141,13 +137,9 @@
                         <h2 class="widget-title">Popular Categories</h2>
                         <div class="link-widget">
                             <ul>
-                                <li><a href="#">Fahsion <span>(21)</span></a></li>
-                                <li><a href="#">Lifestyle <span>(15)</span></a></li>
-                                <li><a href="#">Art & Design <span>(31)</span></a></li>
-                                <li><a href="#">Health Beauty <span>(22)</span></a></li>
-                                <li><a href="#">Clothing <span>(66)</span></a></li>
-                                <li><a href="#">Entertaintment <span>(11)</span></a></li>
-                                <li><a href="#">Food & Drink <span>(87)</span></a></li>
+                                {% for popularCat, count in popularCatagoriesDict.items %}
+                                <li><a href="{% url 'blog-catagory' popularCat %}">{{popularCat.text}} <span>({{count}})</span></a></li>
+                                {% endfor %}
                             </ul>
                         </div><!-- end link-widget -->
                     </div><!-- end widget -->

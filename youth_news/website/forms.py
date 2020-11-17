@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
-from .models import BlogPost
+from .models import BlogPost, Author
 
 
 class CreateUserForm(UserCreationForm):
@@ -38,3 +38,8 @@ class PostForm(ModelForm):
     class Meta:
         model = BlogPost
         fields = ['blog_title', 'blog_content', 'coverPic']
+
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = ['description', 'facebook_URL', 'youtube_URL', 'pinterest_URL', 'twitter_URL', 'flicker_URL', 'instagram_URL', 'personal_URL']

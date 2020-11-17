@@ -36,12 +36,13 @@
                                         <p>{{author.description}}</p>
 
                                         <div class="topsocial">
-                                            <a href="{{author.fb_url}}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            <a href="{{author.yt_url}}" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
-                                            <a href="{{author.pint_url}}" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
-                                            <a href="{{author.twit_url}}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            <a href="{{author.insta_url}}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
-                                            <a href="{{author.personal_url}}" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
+                                            <a href="{{author.facebook_URL}}" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                            <a href="{{author.youtube_URL}}" data-toggle="tooltip" data-placement="bottom" title="Youtube"><i class="fa fa-youtube"></i></a>
+                                            <a href="{{author.pinterest_URL}}" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i class="fa fa-pinterest"></i></a>
+                                            <a href="{{author.twitter_URL}}" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                            <a href="{{author.flicker_URL}}" data-toggle="tooltip" data-placement="bottom" title="Flicker"><i class="fa fa-flickr"></i></a>
+                                            <a href="{{author.instagram_URL}}" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fa fa-instagram"></i></a>
+                                            <a href="{{author.personal_URL}}" data-toggle="tooltip" data-placement="bottom" title="Website"><i class="fa fa-link"></i></a>
                                         </div><!-- end social -->
 
                                     </div><!-- end col -->
@@ -68,22 +69,21 @@
                                     <!-- end media -->
                                     <div class="blog-meta big-meta text-center">
 
-                                        <div class="post-sharing">
+                                        <!-- <div class="post-sharing">
                                             <ul class="list-inline">
-                                                <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Share on Facebook</span></a></li>
-                                                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
-                                                <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
+                                                <li><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% url 'blog' i.slug %}" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Share on Facebook</span></a></li>
+                                                <li><a target="_blank" href="https://twitter.com/intent/tweet?url={% url 'blog' i.slug %}&text={{i.blog_title}}" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
                                             </ul>
-                                        </div><!-- end post-sharing -->
-                                        <h4><a href="single.html" title="">{{i.blog_title}}</a></h4>
+                                        </div> -->
+                                        <h4><a href="{% url 'blog' i.slug %}" title="">{{i.blog_title}}</a></h4>
                                         {% autoescape off %}
                                         {{i.blog_content|truncatechars:300}}
                                         {% endautoescape %}
                                         <!-- <p> </p> -->
-                                        <small><a href="blog-category-01.html" title="">Lifestyle</a></small>
-                                        <small><a href="single.html" title="">{{i.pub_date}}</a></small>
+                                        <small><a href="{% url 'blog-catagory' i.catagory.all.0.text %}" title="">{{i.catagory.all.0}}</a></small>
+                                        <small><a href="{% url 'blog' i.slug %}" title="">{{i.pub_date}}</a></small>
                                         <small><a href="{% url 'blogauthor' i.user.username %}" title="">by {{i.user}}</a></small>
-                                        <small><a href="{% url 'blogauthor' i.user.username %}" title=""><i class="fa fa-eye"></i> 2291</a></small>
+                                        <small><a href="{% url 'blogauthor' i.user.username %}" title=""><i class="fa fa-eye"></i> {{i.views}}</a></small>
                                     </div><!-- end meta -->
                                     
                                 </div><!-- end blog-box -->
@@ -125,12 +125,22 @@
                             <div class="col-md-12">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-start">
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
                                         <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                        {% if blogs.has_previous %}
                                         <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
+                                            <a class="page-link" href="{% url 'blogauthor' blogs.0.user %}?page={{blogs.previous_page_number}}">Previous</a>
                                         </li>
+                                        {% endif %}
+                                        {% for page in noOfPages %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'blogauthor' blogs.0.user %}?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                                        {% endfor %}
+                                        {% if blogs.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'blogauthor' blogs.0.user %}?page={{blogs.next_page_number}}">Next</a>
+                                        </li>
+                                        {% endif %}
                                     </ul>
                                 </nav>
                             </div><!-- end col -->
@@ -153,27 +163,30 @@
                                 <h2 class="widget-title">Recent Posts</h2>
                                 <div class="blog-list-widget">
                                     <div class="list-group">
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <a href="{% url 'blog' recentPosts.0.slug %}"
+                                            class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
-                                                <img src="{% static 'upload/blog_square_01.jpg'%}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">5 Beautiful buildings you need to before dying</h5>
-                                                <small>12 Jan, 2016</small>
+                                                <img src="{{recentPosts.0.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.0.blog_title}}</h5>
+                                                <small>{{recentPosts.0.pub_date }}</small>
                                             </div>
                                         </a>
-
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+        
+                                        <a href="{% url 'blog' recentPosts.1.slug %}"
+                                            class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 justify-content-between">
-                                                <img src="{% static 'upload/blog_square_02.jpg'%}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Let's make an introduction for creative life</h5>
-                                                <small>11 Jan, 2016</small>
+                                                <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
+                                                <small>{{recentPosts.1.pub_date }}</small>
                                             </div>
                                         </a>
-
-                                        <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+        
+                                        <a href="{% url 'blog' recentPosts.1.slug %}"
+                                            class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="w-100 last-item justify-content-between">
-                                                <img src="{% static 'upload/blog_square_03.jpg'%}" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Did you see the most beautiful sea in the world?</h5>
-                                                <small>07 Jan, 2016</small>
+                                                <img src="{{recentPosts.1.coverPic.url}}" alt="" class="img-fluid float-left" style="width: 55px !important;height: 55px !important;">
+                                                <h5 class="mb-1">{{recentPosts.1.blog_title}}</h5>
+                                                <small>{{recentPosts.1.pub_date }}</small>
                                             </div>
                                         </a>
                                     </div>
@@ -208,13 +221,9 @@
                                 <h2 class="widget-title">Popular Categories</h2>
                                 <div class="link-widget">
                                     <ul>
-                                        <li><a href="#">Fahsion <span>(21)</span></a></li>
-                                        <li><a href="#">Lifestyle <span>(15)</span></a></li>
-                                        <li><a href="#">Art & Design <span>(31)</span></a></li>
-                                        <li><a href="#">Health Beauty <span>(22)</span></a></li>
-                                        <li><a href="#">Clothing <span>(66)</span></a></li>
-                                        <li><a href="#">Entertaintment <span>(11)</span></a></li>
-                                        <li><a href="#">Food & Drink <span>(87)</span></a></li>
+                                        {% for popularCat, count in popularCatagoriesDict.items %}
+                                        <li><a href="{% url 'blog-catagory' popularCat %}">{{popularCat.text}} <span>({{count}})</span></a></li>
+                                        {% endfor %}
                                     </ul>
                                 </div><!-- end link-widget -->
                             </div><!-- end widget -->
