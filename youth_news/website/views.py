@@ -40,9 +40,16 @@ def index(request):
 def blogauthor(request, username):
     try:
         user = User.objects.get(username=username)
+
+
         # print(user)
+<< << << < HEAD
         blogs = BlogPost.objects.filter(
             user=user, status="ACTIVE").order_by('-pub_date')
+== == == =
+        blogs = BlogPost.objects.filter(
+            user=user, status="ACTIVE").order_by('-pub_date')
+>>>>>> > aadbd6ed02ee288321b5270b32e63d330e864471
         author = Author.objects.get(user=user)
     except:
         return render(request, 'website/page-404.html', returnFooterDependencies())
@@ -241,7 +248,7 @@ def editPost(request, slug=None):
     item=get_object_or_404(BlogPost, slug=slug)
     # check for auth
     if item.user != request.user:
-        return render(request, 'website/page-404.html', returnFooterDependencies())
+        return render(request, 'website/page-404.html',returnFooterDependencies())
 
     form=PostForm(request.POST or None, instance=item)
     if request.method == "POST":
@@ -250,9 +257,9 @@ def editPost(request, slug=None):
         # print(request.POST.get('blog_title'))
         # print(request.FILES.get('coverPic'))
 
-        item.blog_title=request.POST.get('blog_title')
-        item.blog_content=request.POST.get('blog_content')
-        item.status=request.POST.get('status') or 'PENDING'
+        item.blog_title = request.POST.get('blog_title')
+        item.blog_content = request.POST.get('blog_content')
+        item.status = request.POST.get('status') or 'PENDING'
         if(request.FILES.get('coverPic') != None):
             item.coverPic=request.FILES.get('coverPic')
 
@@ -465,169 +472,143 @@ def comment(request, id):
 
 
 def blogCatagory(request, catagory):
-    recentPosts=BlogPost.objects.filter(
-        status="ACTIVE").order_by('-pub_date')[:3]
-    popularPosts=BlogPost.objects.filter(
-        status="ACTIVE").order_by('-views')[:3]
-    popularCatagories=Catagory.objects.filter(
+    recentPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(
         tranding=True).order_by('-date')
     popularCatagoriesDict={}
     for i in popularCatagories:
-        popularCatagoriesDict[i]=len(
-            BlogPost.objects.filter(catagory=i, status="ACTIVE"))
-    context=returnFooterDependencies()
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i,status="ACTIVE"))
+    context = returnFooterDependencies()
 
     try:
         thisCatagory=Catagory.objects.get(text=catagory)
     except:
         return render(request, 'website/page-404.html', context)
-    blogs=BlogPost.objects.filter(
-        catagory=thisCatagory, status="ACTIVE").order_by('-pub_date')
+    blogs = BlogPost.objects.filter(
+        catagory=thisCatagory,status="ACTIVE").order_by('-pub_date')
     # Paginatior
-    p=Paginator(blogs, 5)
-    page_num=request.GET.get('page', 1)
+    p = Paginator(blogs, 5)
+    page_num = request.GET.get('page', 1)
     try:
-        page=p.page(page_num)
+        page = p.page(page_num)
     except:
-        page=p.page(1)
+        page = p.page(1)
 
-    context['catagory']=thisCatagory
-    context['blogs']=page
-    context['noOfPages']=range(p.num_pages)
+    context['catagory'] = thisCatagory
+    context['blogs'] = page
+    context['noOfPages'] = range(p.num_pages)
     return render(request, 'website/blog-category.html', context)
 
-
-def newsLetterInput(request):
-    if request.method == "POST":
-        newsLetter=NewsLetter(email=request.POST.get('email'))
-        newsLetter.save()
-
-    return redirect('/')
-
-
-def sendNewsLetter():
-    emails=NewsLetter.objects.all()
-    emails=[i.email for i in emails]
-    print(emails)
-    send_mail(
-        'Subject here',
-        'Here is the message.',
-        'from@example.com',
-        emails,
-        fail_silently=False,
-    )
 # User Roles
-@ login_required
-@ onlyDeveloper()
+@login_required
+@onlyDeveloper()
 def userRoles(request):
-    users=User.objects.all()
-    userRoleDict={}
+    users = User.objects.all()
+    userRoleDict = {}
     for user in users:
-        userRoleDict[user]=user.groups.all()[0]
+        userRoleDict[user] = user.groups.all()[0]
 
-    context={'userRoleDict': userRoleDict}
+    context = {'userRoleDict': userRoleDict}
     return render(request, 'website/user_roles_developer.html', context)
 
 # View a User
-@ login_required
-@ onlyDeveloper()
+@login_required
+@onlyDeveloper()
 def viewUser(request, username):
     try:
-        user=User.objects.get(username=username)
-        role=user.groups.all()[0]
+        user = User.objects.get(username=username)
+        role = user.groups.all()[0]
     except:
         return redirect('userRoles')
 
     if request.method == 'POST':
-        userrole=request.POST.get('userrole')
-        if userrole == 'developer' or userrole == 'core_content_writter' or userrole == 'general_content_writer':
-            # remove privious
+        userrole = request.POST.get('userrole')
+        if userrole == 'developer' or userrole == 'core_content_writter' or userrole=='general_content_writer':
+            # remove privious 
             user.groups.clear()
             # add new
-            groupNew=Group.objects.get(name=userrole)
+            groupNew = Group.objects.get(name=userrole)
             user.groups.add(groupNew)
         return redirect('userRoles')
 
+    
 
-
-    context={'user': user, 'role': role}
+    context = {'user': user, 'role':role}
     return render(request, 'website/view_user_developer.html', context)
 
 # Add Tag
-@ login_required
-@ onlyDeveloper()
+@login_required
+@onlyDeveloper()
 def addTag(request):
     if request.method == 'POST':
-        tag=request.POST.get('tag', None)
-        if(not tag or tag.strip() == ''):
+        tag = request.POST.get('tag', None)
+        if(not tag or tag.strip()==''):
             return redirect('addTag')
         Tag.objects.create(text=tag.strip())
     return render(request, 'website/add_Tag.html')
 
 # Add Tag
-@ login_required
-@ onlyDeveloper()
+@login_required
+@onlyDeveloper()
 def addCatagory(request):
     if request.method == 'POST':
-        catagory=request.POST.get('catagory', None)
-        trandingVal=request.POST.get('tranding', False)
-        tranding=False
+        catagory = request.POST.get('catagory', None)
+        trandingVal = request.POST.get('tranding', False)
+        tranding = False
         if (trandingVal == 'on'):
-            tranding=True
-        if(not catagory or catagory.strip() == ''):
+            tranding = True
+        if(not catagory or catagory.strip()==''):
             return redirect('addCatagory')
         print(catagory, tranding)
         Catagory.objects.create(text=catagory.strip(), tranding=tranding)
     return render(request, 'website/add_Catagory.html')
 
 # Add Tag
-@ login_required
-@ onlyDeveloper()
+@login_required
+@onlyDeveloper()
 def changeTranding(request, slug):
     try:
-        blog=BlogPost.objects.get(slug=slug)
-    except:
+        blog = BlogPost.objects.get(slug=slug)
+    except:    
         return redirect('approved_blogs_developer')
-    blog.isTranding=not blog.isTranding
+    blog.isTranding = not blog.isTranding
     blog.save()
     return redirect('approved_blogs_developer')
 
-@ login_required
-@ notDeveloper()
+@login_required
+@notDeveloper()
 def myProfile(request):
-    curr_author=Author.objects.get(user=request.user)
+    curr_author = Author.objects.get(user=request.user)
     if request.method == 'POST':
-        form=AuthorForm(request.POST, instance=curr_author)
+        form = AuthorForm(request.POST, instance=curr_author)
         if form.is_valid():
             form.save()
         # save the pic
         if(request.FILES.get('profilePic') != None):
-            curr_author.profile_pic=request.FILES.get('profilePic')
+            curr_author.profile_pic = request.FILES.get('profilePic')
             try:
                 curr_author.save()
             except:
                 pass
         return redirect('myProfile')
 
-    role=request.user.groups.all()[0]
-    form=AuthorForm(instance=curr_author)
-    context={'role': role, 'form': form}
+    role = request.user.groups.all()[0]
+    form = AuthorForm(instance=curr_author)
+    context = {'role': role, 'form': form}
 
     return render(request, 'website/my-profile.html', context)
 
 def returnFooterDependencies():
-    recentPosts=BlogPost.objects.filter(
-        status="ACTIVE").order_by('-pub_date')[:3]
-    popularPosts=BlogPost.objects.filter(
-        status="ACTIVE").order_by('-views')[:3]
-    popularCatagories=Catagory.objects.filter(
+    recentPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-pub_date')[:3]
+    popularPosts = BlogPost.objects.filter(status="ACTIVE").order_by('-views')[:3]
+    popularCatagories = Catagory.objects.filter(
         tranding=True).order_by('-date')
-    popularCatagoriesDict={}
+    popularCatagoriesDict = {}
     for i in popularCatagories:
-        popularCatagoriesDict[i]=len(
-            BlogPost.objects.filter(catagory=i, status="ACTIVE"))
+        popularCatagoriesDict[i] = len(BlogPost.objects.filter(catagory=i, status="ACTIVE"))
     # print(trandingCatagoriesPosts)
-    context={'recentPosts': recentPosts,
+    context = {'recentPosts': recentPosts,
                'popularPosts': popularPosts,
                'popularCatagoriesDict': popularCatagoriesDict
                }

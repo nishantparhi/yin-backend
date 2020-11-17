@@ -121,3 +121,6 @@ class Comment(models.Model):
 
 class NewsLetter(models.Model):
     email = models.CharField(max_length=250, null=True, blank=True)
+
+    def __str__(self):
+        return self.email
